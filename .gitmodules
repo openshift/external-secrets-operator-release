@@ -1,0 +1,8 @@
+[submodule "external-secrets"]
+	path = external-secrets
+	url = https://github.com/openshift/external-secrets.git
+	branch = release-0.14
+[submodule "external-secrets-operator"]
+	path = external-secrets-operator
+	url = https://github.com/openshift/external-secrets-operator.git
+	branch = release-0.14
