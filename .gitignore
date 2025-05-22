@@ -1,0 +1,5 @@
+bin
+
+# ignore non-initialized submodules
+external-secrets
+external-secrets-operator
