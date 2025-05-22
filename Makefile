@@ -6,16 +6,15 @@ external_secrets_operator_containerfile_name = Containerfile.external-secrets-op
 external_secrets_operator_bundle_containerfile_name = Containerfile.external-secrets-operator.bundle
 commit_sha = $(strip $(shell git rev-parse HEAD))
 source_url = $(strip $(shell git remote get-url origin))
-release_version = v$(strip $(shell git branch --show-current | cut -d'-' -f2))
 
-## current local branch name which will be used for updating submodules.
-LOCAL_BRANCH_NAME ?= $(strip $(shell git branch --show-current))
+## release version to be used for image tags and build args to add labels to images.
+RELEASE_VERSION = v0.1
 
 ## current branch name of the external-secrets submodule.
-EXTERNAL_SECRETS_BRANCH ?= $(LOCAL_BRANCH_NAME)
+EXTERNAL_SECRETS_BRANCH ?= release-0.14
 
 ## current branch name of the external-secrets-operator submodule
-EXTERNAL_SECRETS_OPERATOR_BRANCH ?= $(LOCAL_BRANCH_NAME)
+EXTERNAL_SECRETS_OPERATOR_BRANCH ?= release-0.1
 
 ## container build tool to use for creating images.
 CONTAINER_ENGINE ?= podman
@@ -30,16 +29,10 @@ EXTERNAL_SECRETS_OPERATOR_BUNDLE_IMAGE ?= external-secrets-operator-bundle
 EXTERNAL_SECRETS_IMAGE ?= external-secrets
 
 ## image version to tag the created images with.
-IMAGE_VERSION ?= $(release_version)
-
-## image tag makes use of the branch name and
-## when branch name is `main` use `latest` as the tag.
-ifeq ($(release_version), main)
-IMAGE_VERSION = latest
-endif
+IMAGE_VERSION ?= $(RELEASE_VERSION)
 
 ## args to pass during image build
-IMAGE_BUILD_ARGS ?= --build-arg RELEASE_VERSION=$(release_version) --build-arg COMMIT_SHA=$(commit_sha) --build-arg SOURCE_URL=$(source_url)
+IMAGE_BUILD_ARGS ?= --build-arg RELEASE_VERSION=$(RELEASE_VERSION) --build-arg COMMIT_SHA=$(commit_sha) --build-arg SOURCE_URL=$(source_url)
 
 ## tailored command to build images.
 IMAGE_BUILD_CMD = $(CONTAINER_ENGINE) build $(IMAGE_BUILD_ARGS)
