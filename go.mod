@@ -6,7 +6,7 @@ require github.com/mikefarah/yq/v4 v4.45.1
 
 require (
 	github.com/a8m/envsubst v1.4.2 // indirect
-	github.com/alecthomas/participle/v2 v2.1.1 // indirect
+	github.com/alecthomas/participle/v2 v2.1.4 // indirect
 	github.com/dimchansky/utfbom v1.1.1 // indirect
 	github.com/elliotchance/orderedmap v1.7.1 // indirect
 	github.com/fatih/color v1.18.0 // indirect
