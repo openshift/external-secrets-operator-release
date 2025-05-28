@@ -1,0 +1,323 @@
+---
+image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:f446ed35112d2ffd839bf9f6787729147ec5f3681cdb85ccbfefecb165fbaa55
+name: external-secrets-operator.v0.1.0
+package: openshift-external-secrets-operator
+properties:
+- type: olm.gvk
+  value:
+    group: external-secrets.io
+    kind: ClusterExternalSecret
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: external-secrets.io
+    kind: ClusterSecretStore
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: external-secrets.io
+    kind: ClusterSecretStore
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: external-secrets.io
+    kind: ExternalSecret
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: external-secrets.io
+    kind: ExternalSecret
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: external-secrets.io
+    kind: PushSecret
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: external-secrets.io
+    kind: SecretStore
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: external-secrets.io
+    kind: SecretStore
+    version: v1beta1
+- type: olm.gvk
+  value:
+    group: generators.external-secrets.io
+    kind: ACRAccessToken
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: generators.external-secrets.io
+    kind: ClusterGenerator
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: generators.external-secrets.io
+    kind: ECRAuthorizationToken
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: generators.external-secrets.io
+    kind: GCRAccessToken
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: generators.external-secrets.io
+    kind: GeneratorState
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: generators.external-secrets.io
+    kind: GithubAccessToken
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: generators.external-secrets.io
+    kind: Grafana
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: generators.external-secrets.io
+    kind: Password
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: generators.external-secrets.io
+    kind: QuayAccessToken
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: generators.external-secrets.io
+    kind: STSSessionToken
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: generators.external-secrets.io
+    kind: UUID
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: generators.external-secrets.io
+    kind: VaultDynamicSecret
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: generators.external-secrets.io
+    kind: Webhook
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: operator.openshift.io
+    kind: ExternalSecrets
+    version: v1alpha1
+- type: olm.gvk
+  value:
+    group: operator.openshift.io
+    kind: ExternalSecretsManager
+    version: v1alpha1
+- type: olm.maxOpenShiftVersion
+  value: "4.19"
+- type: olm.package
+  value:
+    packageName: openshift-external-secrets-operator
+    version: 0.1.0
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: |-
+        [
+          {
+            "apiVersion": "operator.openshift.io/v1alpha1",
+            "kind": "ExternalSecrets",
+            "metadata": {
+              "labels": {
+                "app.kubernetes.io/managed-by": "kustomize",
+                "app.kubernetes.io/name": "external-secrets-operator"
+              },
+              "name": "cluster"
+            },
+            "spec": {}
+          },
+          {
+            "apiVersion": "operator.openshift.io/v1alpha1",
+            "kind": "ExternalSecretsManager",
+            "metadata": {
+              "labels": {
+                "app.kubernetes.io/managed-by": "kustomize",
+                "app.kubernetes.io/name": "external-secrets-operator"
+              },
+              "name": "cluster"
+            },
+            "spec": {}
+          }
+        ]
+      capabilities: Basic Install
+      categories: Security
+      console.openshift.io/disable-operand-delete: "true"
+      containerImage: ""
+      createdAt: 2025-05-28T13:25:19
+      features.operators.openshift.io/cnf: "false"
+      features.operators.openshift.io/cni: "false"
+      features.operators.openshift.io/csi: "false"
+      features.operators.openshift.io/disconnected: "false"
+      features.operators.openshift.io/fips-compliant: "true"
+      features.operators.openshift.io/proxy-aware: "true"
+      features.operators.openshift.io/tls-profiles: "false"
+      features.operators.openshift.io/token-auth-aws: "true"
+      features.operators.openshift.io/token-auth-azure: "true"
+      features.operators.openshift.io/token-auth-gcp: "true"
+      olm.properties: '[{"type": "olm.maxOpenShiftVersion", "value": "4.19"}]'
+      olm.skipRange: <0.1.0
+      operator.openshift.io/uninstall-message: The external secrets operator for Red
+        Hat OpenShift will be removed from external-secrets-operator namespace. If
+        your Operator configured any off-cluster resources, these will continue to
+        run and require manual cleanup. All operands created by the operator will
+        need to be manually cleaned up. Please refer to https://docs.openshift.com/container-platform/latest/security/external_secrets_operator/external-secrets-operator-uninstall.html
+        for additional steps.
+      operatorframework.io/cluster-monitoring: "true"
+      operatorframework.io/suggested-namespace: external-secrets-operator
+      operators.openshift.io/valid-subscription: '["OpenShift Kubernetes Engine",
+        "OpenShift Container Platform", "OpenShift Platform Plus"]'
+      operators.operatorframework.io/builder: operator-sdk-v1.39.0
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
+      repository: https://github.com/openshift/external-secrets-operator
+      support: Red Hat, Inc.
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - kind: ACRAccessToken
+        name: acraccesstokens.generators.external-secrets.io
+        version: v1alpha1
+      - kind: ClusterExternalSecret
+        name: clusterexternalsecrets.external-secrets.io
+        version: v1beta1
+      - kind: ClusterGenerator
+        name: clustergenerators.generators.external-secrets.io
+        version: v1alpha1
+      - kind: ClusterSecretStore
+        name: clustersecretstores.external-secrets.io
+        version: v1alpha1
+      - kind: ClusterSecretStore
+        name: clustersecretstores.external-secrets.io
+        version: v1beta1
+      - kind: ECRAuthorizationToken
+        name: ecrauthorizationtokens.generators.external-secrets.io
+        version: v1alpha1
+      - kind: ExternalSecret
+        name: externalsecrets.external-secrets.io
+        version: v1alpha1
+      - kind: ExternalSecret
+        name: externalsecrets.external-secrets.io
+        version: v1beta1
+      - description: |-
+          ExternalSecrets describes configuration and information about the managed external-secrets
+          deployment. The name must be `cluster` as ExternalSecrets is a singleton,
+          allowing only one instance per cluster.
+
+          When an ExternalSecrets is created, a new deployment is created which manages the
+          external-secrets and keeps it in the desired state.
+        displayName: ExternalSecrets
+        kind: ExternalSecrets
+        name: externalsecrets.operator.openshift.io
+        version: v1alpha1
+      - description: |-
+          ExternalSecretsManager describes configuration and information about the deployments managed by
+          the operator. The name must be `cluster` to make ExternalSecretsManager a singleton that is, to
+          allow only one instance of ExternalSecretsManager per cluster.
+
+          ExternalSecretsManager is mainly for configuring the global options and enabling the features, which
+          serves as a common/centralized config for managing multiple controllers of the operator. The object
+          will be created during the operator installation.
+        displayName: ExternalSecretsManager
+        kind: ExternalSecretsManager
+        name: externalsecretsmanagers.operator.openshift.io
+        version: v1alpha1
+      - kind: GCRAccessToken
+        name: gcraccesstokens.generators.external-secrets.io
+        version: v1alpha1
+      - kind: GeneratorState
+        name: generatorstates.generators.external-secrets.io
+        version: v1alpha1
+      - kind: GithubAccessToken
+        name: githubaccesstokens.generators.external-secrets.io
+        version: v1alpha1
+      - kind: Grafana
+        name: grafanas.generators.external-secrets.io
+        version: v1alpha1
+      - kind: Password
+        name: passwords.generators.external-secrets.io
+        version: v1alpha1
+      - kind: PushSecret
+        name: pushsecrets.external-secrets.io
+        version: v1alpha1
+      - kind: QuayAccessToken
+        name: quayaccesstokens.generators.external-secrets.io
+        version: v1alpha1
+      - kind: SecretStore
+        name: secretstores.external-secrets.io
+        version: v1alpha1
+      - kind: SecretStore
+        name: secretstores.external-secrets.io
+        version: v1beta1
+      - kind: STSSessionToken
+        name: stssessiontokens.generators.external-secrets.io
+        version: v1alpha1
+      - kind: UUID
+        name: uuids.generators.external-secrets.io
+        version: v1alpha1
+      - kind: VaultDynamicSecret
+        name: vaultdynamicsecrets.generators.external-secrets.io
+        version: v1alpha1
+      - kind: Webhook
+        name: webhooks.generators.external-secrets.io
+        version: v1alpha1
+    description: external secrets operator for Red Hat OpenShift deploys and manages
+      `external-secrets` application in OpenShift clusters. `external-secrets` provides
+      an uniformed interface to fetch secrets stored in external providers like  AWS
+      Secrets Manager, HashiCorp Vault, Google Secrets Manager, Azure Key Vault, IBM
+      Cloud Secrets Manager to name a few, stores them as secrets in OpenShift. It
+      provides APIs to define authentication and the details of the secret to fetch.
+    displayName: external secrets operator for Red Hat OpenShift
+    installModes:
+    - supported: false
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - security
+    - secrets
+    - external-secrets
+    - external-secrets-operator
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/arch.arm64: supported
+      operatorframework.io/arch.ppc64le: supported
+      operatorframework.io/arch.s390x: supported
+      operatorframework.io/os.linux: supported
+    links:
+    - name: Documentation
+      url: https://docs.openshift.com/container-platform/latest/security/external_secrets_operator/index.html
+    - name: External Secrets Operator
+      url: https://github.com/openshift/external-secrets-operator/blob/master/README.md
+    maintainers:
+    - email: support@redhat.com
+      name: Red Hat Support
+    maturity: alpha
+    minKubeVersion: 1.32.0
+    provider:
+      name: Red Hat, Inc.
+relatedImages:
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:f446ed35112d2ffd839bf9f6787729147ec5f3681cdb85ccbfefecb165fbaa55
+  name: ""
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:0294d086602038d7f4ca2779eb42886f8aefe183e15b48d48002b1f76a8fa2b2
+  name: ""
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-rhel9@sha256:1d99aa52ef3acf1416309ee1caae131e590b8bcfc0b82e706f109294ff86b052
+  name: external-secrets
+schema: olm.bundle
