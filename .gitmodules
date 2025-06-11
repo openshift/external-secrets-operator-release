@@ -5,4 +5,8 @@
 [submodule "external-secrets-operator"]
 	path = external-secrets-operator
 	url = https://github.com/openshift/external-secrets-operator.git
-	branch = release-0.1
+	branch = release-0.1.0
+[submodule "bitwarden-sdk-server"]
+	path = bitwarden-sdk-server
+	url = https://github.com/openshift/external-secrets-bitwarden-sdk-server
+	branch = release-0.4.2
