@@ -1,7 +1,9 @@
 ## local variables.
 external_secrets_submodule_dir = external-secrets
+bitwarden_sdk_server_submodule_dir = bitwarden-sdk-server
 external_secrets_operator_submodule_dir = external-secrets-operator
 external_secrets_containerfile_name = Containerfile.external-secrets
+bitwarden_sdk_server_containerfile_name = Containerfile.bitwarden-sdk-server
 external_secrets_operator_containerfile_name = Containerfile.external-secrets-operator
 external_secrets_operator_bundle_containerfile_name = Containerfile.external-secrets-operator.bundle
 commit_sha = $(strip $(shell git rev-parse HEAD))
@@ -13,8 +15,11 @@ RELEASE_VERSION = v0.1
 ## current branch name of the external-secrets submodule.
 EXTERNAL_SECRETS_BRANCH ?= release-0.14
 
+## current branch name of the bitwarden-sdk-server submodule.
+BITWARDEN_SDK_SERVER_BRANCH ?= release-0.4.2
+
 ## current branch name of the external-secrets-operator submodule
-EXTERNAL_SECRETS_OPERATOR_BRANCH ?= release-0.1
+EXTERNAL_SECRETS_OPERATOR_BRANCH ?= release-0.1.0
 
 ## container build tool to use for creating images.
 CONTAINER_ENGINE ?= podman
@@ -27,6 +32,9 @@ EXTERNAL_SECRETS_OPERATOR_BUNDLE_IMAGE ?= external-secrets-operator-bundle
 
 ## image name for external-secrets.
 EXTERNAL_SECRETS_IMAGE ?= external-secrets
+
+## image name for bitwarden-sdk-server.
+BITWARDEN_SDK_SERVER_IMAGE ?= bitwarden-sdk-server
 
 ## image version to tag the created images with.
 IMAGE_VERSION ?= $(RELEASE_VERSION)
@@ -63,6 +71,7 @@ all: verify
 .PHONY: switch-submodules-branch
 switch-submodules-branch:
 	cd $(external_secrets_submodule_dir); git checkout $(EXTERNAL_SECRETS_BRANCH); cd - > /dev/null
+	cd $(bitwarden_sdk_server_submodule_dir); git checkout $(BITWARDEN_SDK_SERVER_BRANCH); cd - > /dev/null
 	cd $(external_secrets_operator_submodule_dir); git checkout $(EXTERNAL_SECRETS_OPERATOR_BRANCH); cd - > /dev/null
 	# update with local cache.
 	git submodule update
@@ -71,6 +80,7 @@ switch-submodules-branch:
 .PHONY: update-submodules
 update-submodules:
 	git submodule update --remote $(external_secrets_submodule_dir)
+	git submodule update --remote $(bitwarden_sdk_server_submodule_dir)
 	git submodule update --remote $(external_secrets_operator_submodule_dir)
 
 ## build all the images - operator, operand and operator-bundle.
@@ -84,17 +94,22 @@ build-operator-image:
 
 ## build all operand images
 .PHONY: build-operand-images
-build-operand-images: build-external-secrets-image
+build-operand-images: build-external-secrets-image build-bitwarden-sdk-server-image
 
 ## build operator bundle image.
 .PHONY: build-bundle-image
 build-bundle-image:
 	$(IMAGE_BUILD_CMD) -f $(external_secrets_operator_bundle_containerfile_name) -t $(EXTERNAL_SECRETS_OPERATOR_BUNDLE_IMAGE):$(IMAGE_VERSION) .
 
-## build operand cert-manager image.
+## build operand external-secrets image.
 .PHONY: build-external-secrets-image
 build-external-secrets-image:
 	$(IMAGE_BUILD_CMD) -f $(external_secrets_containerfile_name) -t $(EXTERNAL_SECRETS_IMAGE):$(IMAGE_VERSION) .
+
+## build operand bitwarden-sdk-server image
+.PHONY: build-bitwarden-sdk-server-image
+build-bitwarden-sdk-server-image:
+	$(IMAGE_BUILD_CMD) -f $(bitwarden_sdk_server_containerfile_name) -t $(BITWARDEN_SDK_SERVER_IMAGE):$(IMAGE_VERSION) .
 
 ## check shell scripts.
 .PHONY: verify-shell-scripts
@@ -119,7 +134,8 @@ update: update-submodules
 clean:
 	podman rmi -i $(EXTERNAL_SECRETS_OPERATOR_IMAGE):$(IMAGE_VERSION) \
 $(EXTERNAL_SECRETS_IMAGE):$(IMAGE_VERSION) \
-$(EXTERNAL_SECRETS_OPERATOR_BUNDLE_IMAGE):$(IMAGE_VERSION)
+$(EXTERNAL_SECRETS_OPERATOR_BUNDLE_IMAGE):$(IMAGE_VERSION) \
+$(BITWARDEN_SDK_SERVER_IMAGE):$(IMAGE_VERSION)
 
 ## validate renovate config.
 .PHONY: validate-renovate-config

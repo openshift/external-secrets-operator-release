@@ -6,6 +6,7 @@ declare MANIFESTS_DIR
 declare METADATA_DIR
 declare IMAGES_DIGEST_CONF_FILE
 declare EXTERNAL_SECRETS_IMAGE
+declare BITWARDEN_SDK_SERVER_IMAGE
 declare EXTERNAL_SECRETS_OPERATOR_IMAGE
 
 CSV_FILE_NAME="external-secrets-operator.clusterserviceversion.yaml"
@@ -34,6 +35,9 @@ update_csv_manifest()
 
 	## replace external-secrets operand related images
 	sed -i "s#oci.external-secrets.io/external-secrets/external-secrets.*#${EXTERNAL_SECRETS_IMAGE}#g" "${CSV_FILE}"
+
+	## replace bitwrden-sdk-server images
+	sed -i "s#ghcr.io/external-secrets/bitwarden-sdk-server.*#${BITWARDEN_SDK_SERVER_IMAGE}#g" "${CSV_FILE}"
 
 	## replace external-secrets-operator image
 	sed -i "s#openshift.io/external-secrets-operator.*#${EXTERNAL_SECRETS_OPERATOR_IMAGE}#g" "${CSV_FILE}"
@@ -94,8 +98,8 @@ fi
 # shellcheck source=/dev/null
 source "${IMAGES_DIGEST_CONF_FILE}"
 
-if [[ -z ${EXTERNAL_SECRETS_IMAGE} ]] || [[ -z ${EXTERNAL_SECRETS_OPERATOR_IMAGE} ]]; then
-	log_error "\"${EXTERNAL_SECRETS_IMAGE}\" or \"${EXTERNAL_SECRETS_OPERATOR_IMAGE}\" is not set"
+if [[ -z ${EXTERNAL_SECRETS_IMAGE} ]] || [[ -z ${EXTERNAL_SECRETS_OPERATOR_IMAGE} ]] || [[ -z ${BITWARDEN_SDK_SERVER_IMAGE} ]]; then
+	log_error "one or all of \"${EXTERNAL_SECRETS_IMAGE}\", \"${BITWARDEN_SDK_SERVER_IMAGE}\", \"${EXTERNAL_SECRETS_OPERATOR_IMAGE}\" is not set"
 	exit 1
 fi
 
