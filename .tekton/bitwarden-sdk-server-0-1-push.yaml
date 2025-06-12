@@ -40,7 +40,7 @@ spec:
       - COMMIT_SHA={{revision}}
       - SOURCE_URL={{source_url}}
   - name: prefetch-input
-    value: '{"type": "gomod", "path": "bitwarden-sdk-server-cachi2-gomod"}'
+    value: '[{"type": "gomod", "path": "./cachi2-prefetch-configs/bitwarden-sdk-server/gomod"}, {"type": "generic", "path": "./cachi2-prefetch-configs/bitwarden-sdk-server/generics"}]'
   pipelineRef:
     name: multi-arch-build-pipeline
   taskRunTemplate:
