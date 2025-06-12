@@ -45,6 +45,9 @@ IMAGE_BUILD_ARGS ?= --build-arg RELEASE_VERSION=$(RELEASE_VERSION) --build-arg C
 ## tailored command to build images.
 IMAGE_BUILD_CMD = $(CONTAINER_ENGINE) build $(IMAGE_BUILD_ARGS)
 
+## musl-tools version to fetch for installing musl-gcc.
+MUSL_TOOLS_VERSION = 1.2.5
+
 .DEFAULT_GOAL := help
 ## usage summary.
 .PHONY: help
@@ -129,6 +132,15 @@ verify: verify-shell-scripts verify-containerfiles validate-renovate-config
 .PHONY: update
 update: update-submodules
 
+## install musl-gcc tool.
+.PHONY: musl-gcc
+musl-gcc:
+	mkdir -p _output/musl-tools
+	wget -q https://musl.libc.org/releases/musl-$(MUSL_TOOLS_VERSION).tar.gz -O _output/musl-tools/musl.tar.gz
+	tar -xf _output/musl-tools/musl.tar.gz --strip-components=1 -C _output/musl-tools
+	cd _output/musl-tools && ./configure --prefix=./ > /dev/null 2>&1 && make > /dev/null 2>&1 && make install > /dev/null 2>&1
+	cp ./_output/musl-tools/bin/musl-gcc bin/
+
 ## clean up temp dirs, images.
 .PHONY: clean
 clean:
@@ -136,6 +148,8 @@ clean:
 $(EXTERNAL_SECRETS_IMAGE):$(IMAGE_VERSION) \
 $(EXTERNAL_SECRETS_OPERATOR_BUNDLE_IMAGE):$(IMAGE_VERSION) \
 $(BITWARDEN_SDK_SERVER_IMAGE):$(IMAGE_VERSION)
+
+	rm -rf _output
 
 ## validate renovate config.
 .PHONY: validate-renovate-config

@@ -25,11 +25,6 @@ spec:
     value: '{{revision}}'
   - name: output-image
     value: quay.io/redhat-user-workloads/external-secrets-oap-tenant/bitwarden-sdk-server-0-1/bitwarden-sdk-server-0-1:{{revision}}
-  # We configure the build-platforms only in bitwarden PaC, since it's supported only in x86 and arm64 archs
-  - name: build-platforms
-    value:
-      - linux/x86_64
-      - linux/arm64
   - name: dockerfile
     value: Containerfile.bitwarden-sdk-server
   - name: path-context
@@ -40,7 +35,7 @@ spec:
       - COMMIT_SHA={{revision}}
       - SOURCE_URL={{source_url}}
   - name: prefetch-input
-    value: '{"type": "gomod", "path": "bitwarden-sdk-server-cachi2-gomod"}'
+    value: '[{"type": "gomod", "path": "./cachi2-prefetch-configs/bitwarden-sdk-server/gomod"}, {"type": "generic", "path": "./cachi2-prefetch-configs/bitwarden-sdk-server/generics"}]'
   pipelineRef:
     name: multi-arch-build-pipeline
   taskRunTemplate:
