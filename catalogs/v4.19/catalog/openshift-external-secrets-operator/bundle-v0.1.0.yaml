@@ -1,5 +1,5 @@
 ---
-image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:035da4ecc06e75157143aa953250a6e6bee5b10b6afdb7e151b6366a65cc0e89
+image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:d059840f662ab988078e8ee7b89168a5e9b833d1b8d1be2f3626edee82b3f519
 name: external-secrets-operator.v0.1.0
 package: openshift-external-secrets-operator
 properties:
@@ -130,6 +130,178 @@ properties:
       alm-examples: |-
         [
           {
+            "apiVersion": "external-secrets.io/v1alpha1",
+            "kind": "PushSecret",
+            "metadata": {
+              "annotations": {
+                "external-secrets.io/example": "true"
+              },
+              "name": "pushsecret-sample",
+              "namespace": "external-secrets"
+            },
+            "spec": {
+              "config": {
+                "gcp": {
+                  "projectID": "openshift-sample-project",
+                  "secret": {
+                    "name": "test",
+                    "replicationPolicy": "automatic",
+                    "version": "latest"
+                  }
+                }
+              },
+              "secretStoreRefs": [
+                {
+                  "kind": "ClusterSecretStore",
+                  "name": "gcp-cluster-secretstore"
+                }
+              ],
+              "selector": {
+                "secret": {
+                  "name": "gcp-secret-k8s"
+                }
+              }
+            }
+          },
+          {
+            "apiVersion": "external-secrets.io/v1beta1",
+            "kind": "ClusterExternalSecret",
+            "metadata": {
+              "annotations": {
+                "external-secrets.io/example": "true"
+              },
+              "name": "secret-cluster"
+            },
+            "spec": {
+              "externalSecretSpec": {
+                "data": [
+                  {
+                    "remoteRef": {
+                      "key": "gcp-secret",
+                      "version": "latest"
+                    },
+                    "secretKey": "key"
+                  }
+                ],
+                "refreshInterval": "1h",
+                "secretStoreRef": {
+                  "kind": "ClusterSecretStore",
+                  "name": "gcp-cluster-secretstore"
+                },
+                "target": {
+                  "creationPolicy": "Owner",
+                  "name": "gcp-secret-k8s"
+                }
+              },
+              "namespaceSelector": {
+                "matchLabels": {
+                  "app.kubernetes.io/managed-by": "external-secrets-operator"
+                }
+              }
+            }
+          },
+          {
+            "apiVersion": "external-secrets.io/v1beta1",
+            "kind": "ClusterSecretStore",
+            "metadata": {
+              "annotations": {
+                "external-secrets.io/example": "true"
+              },
+              "name": "gcp-cluster-secretstore"
+            },
+            "spec": {
+              "provider": {
+                "gcpsm": {
+                  "auth": {
+                    "secretRef": {
+                      "secretAccessKeySecretRef": {
+                        "key": "secret-access-key.json",
+                        "name": "gcp-creds",
+                        "namespace": "external-secrets"
+                      }
+                    }
+                  },
+                  "projectID": "openshift-sample-project"
+                }
+              }
+            }
+          },
+          {
+            "apiVersion": "external-secrets.io/v1beta1",
+            "kind": "ExternalSecret",
+            "metadata": {
+              "annotations": {
+                "external-secrets.io/example": "true"
+              },
+              "name": "gcp-secret",
+              "namespace": "external-secrets"
+            },
+            "spec": {
+              "data": [
+                {
+                  "remoteRef": {
+                    "key": "gcp-secret",
+                    "version": "latest"
+                  },
+                  "secretKey": "Key"
+                }
+              ],
+              "refreshInterval": "1h",
+              "secretStoreRef": {
+                "kind": "SecretStore",
+                "name": "secretstore"
+              },
+              "target": {
+                "creationPolicy": "Owner",
+                "name": "k8s-secret"
+              }
+            }
+          },
+          {
+            "apiVersion": "external-secrets.io/v1beta1",
+            "kind": "SecretStore",
+            "metadata": {
+              "annotations": {
+                "external-secrets.io/disable-maintenance-checks": "true"
+              },
+              "name": "secretstore",
+              "namespace": "external-secrets"
+            },
+            "spec": {
+              "provider": {
+                "gcpsm": {
+                  "auth": {
+                    "secretRef": {
+                      "secretAccessKeySecretRef": {
+                        "key": "secret-access-key.json",
+                        "name": "gcp-creds"
+                      }
+                    }
+                  },
+                  "projectID": "openshift-sample-project"
+                }
+              }
+            }
+          },
+          {
+            "apiVersion": "generators.external-secrets.io/v1alpha1",
+            "kind": "Password",
+            "metadata": {
+              "annotations": {
+                "external-secrets.io/example": "true"
+              },
+              "name": "password-sample",
+              "namespace": "external-secrets"
+            },
+            "spec": {
+              "excludeLowercase": false,
+              "excludeNumbers": false,
+              "excludeUppercase": false,
+              "includeSymbols": true,
+              "length": 20
+            }
+          },
+          {
             "apiVersion": "operator.openshift.io/v1alpha1",
             "kind": "ExternalSecrets",
             "metadata": {
@@ -158,7 +330,7 @@ properties:
       categories: Security
       console.openshift.io/disable-operand-delete: "true"
       containerImage: ""
-      createdAt: 2025-06-12T03:35:40
+      createdAt: 2025-06-19T11:22:43
       features.operators.openshift.io/cnf: "false"
       features.operators.openshift.io/cni: "false"
       features.operators.openshift.io/csi: "false"
@@ -280,7 +452,7 @@ properties:
       Secrets Manager, HashiCorp Vault, Google Secrets Manager, Azure Key Vault, IBM
       Cloud Secrets Manager to name a few, stores them as secrets in OpenShift. It
       provides APIs to define authentication and the details of the secret to fetch.
-    displayName: external secrets operator for Red Hat OpenShift
+    displayName: External Secrets Operator for Red Hat OpenShift
     installModes:
     - supported: false
       type: OwnNamespace
@@ -303,7 +475,7 @@ properties:
       operatorframework.io/os.linux: supported
     links:
     - name: Documentation
-      url: https://docs.openshift.com/container-platform/latest/security/external_secrets_operator/index.html
+      url: https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/security_and_compliance/external-secrets-operator-for-red-hat-openshift
     - name: External Secrets Operator
       url: https://github.com/openshift/external-secrets-operator/blob/master/README.md
     maintainers:
@@ -314,10 +486,12 @@ properties:
     provider:
       name: Red Hat, Inc.
 relatedImages:
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:035da4ecc06e75157143aa953250a6e6bee5b10b6afdb7e151b6366a65cc0e89
+- image: registry.stage.redhat.io/external-secrets-operator/bitwarden-sdk-server-rhel9@sha256:6004a15f29478e35a28455d7ee6bacbfebd3f7b1be3581ecbf49a9b91ebe095f
+  name: bitwarden-sdk-server
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:d059840f662ab988078e8ee7b89168a5e9b833d1b8d1be2f3626edee82b3f519
   name: ""
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:c5239a18c1cbfb7469f29705e262de3a061b8fdf548266b42904fb3e358a7cbf
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:7ff4b3d94bd614a47990dfc96e043be4ff233ea772c5cf65fdaf9d06fa7d2984
   name: ""
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-rhel9@sha256:12b30ae75b4296506d8c5e01426f61152a530985a7cc3c69ba55a0d883e11af1
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-rhel9@sha256:6136d0271f7daa1ccb90264d4ebd9c41fb2ae937192b0df23d235586b246f9c9
   name: external-secrets
 schema: olm.bundle
