@@ -13,7 +13,7 @@ source_url = $(strip $(shell git remote get-url origin))
 RELEASE_VERSION = v0.1
 
 ## current branch name of the external-secrets submodule.
-EXTERNAL_SECRETS_BRANCH ?= release-0.14
+EXTERNAL_SECRETS_BRANCH ?= release-0.14.3
 
 ## current branch name of the bitwarden-sdk-server submodule.
 BITWARDEN_SDK_SERVER_BRANCH ?= release-0.4.2
