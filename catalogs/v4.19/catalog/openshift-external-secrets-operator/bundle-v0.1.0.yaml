@@ -1,5 +1,5 @@
 ---
-image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:f45cf0fa1ff4c5a7ac6d5d307be15b6a97c64b8288341fbad67283c82c00dc5a
+image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:0cb545579bf02d5919df8a3c431e1c30b6bad2814b0937da664a0fbcae6a49e7
 name: external-secrets-operator.v0.1.0
 package: openshift-external-secrets-operator
 properties:
@@ -330,7 +330,7 @@ properties:
       categories: Security
       console.openshift.io/disable-operand-delete: "true"
       containerImage: ""
-      createdAt: 2025-06-23T08:08:53
+      createdAt: 2025-06-24T08:49:22
       features.operators.openshift.io/cnf: "false"
       features.operators.openshift.io/cni: "false"
       features.operators.openshift.io/csi: "false"
@@ -488,9 +488,9 @@ properties:
 relatedImages:
 - image: registry.stage.redhat.io/external-secrets-operator/bitwarden-sdk-server-rhel9@sha256:ca8e9e4a693ae34ae7289a5d250b987f970e412e972b07705fb860132d0d5c11
   name: bitwarden-sdk-server
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:f45cf0fa1ff4c5a7ac6d5d307be15b6a97c64b8288341fbad67283c82c00dc5a
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:0cb545579bf02d5919df8a3c431e1c30b6bad2814b0937da664a0fbcae6a49e7
   name: ""
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:2d90a4591db7ff62e66c522dc5eb11142b0647a56f6f0bfa3a9ae527dcb173b7
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:ee611d1b35147ee572b89db63bc7da2b66911f921e8bcdc6e84a89c0d8f1b13c
   name: ""
 - image: registry.stage.redhat.io/external-secrets-operator/external-secrets-rhel9@sha256:83be0b4a6840fb84da7818aa30a2060b721cd080e3b14be5ef732f4045bf285b
   name: external-secrets
