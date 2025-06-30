@@ -44,6 +44,8 @@ spec:
       - SOURCE_URL={{source_url}}
   - name: prefetch-input
     value: '[{"type": "gomod", "path": "./cachi2-prefetch-configs/bitwarden-sdk-server/gomod"}, {"type": "generic", "path": "./cachi2-prefetch-configs/bitwarden-sdk-server/generics"}]'
+  - name: snyk-proj-name
+    value: "external-secrets-bitwarden-sdk-server"
   pipelineRef:
     name: multi-arch-build-pipeline
   taskRunTemplate:
