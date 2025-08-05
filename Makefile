@@ -1,7 +1,4 @@
 ## local variables.
-external_secrets_submodule_dir = external-secrets
-bitwarden_sdk_server_submodule_dir = bitwarden-sdk-server
-external_secrets_operator_submodule_dir = external-secrets-operator
 external_secrets_containerfile_name = Containerfile.external-secrets
 bitwarden_sdk_server_containerfile_name = Containerfile.bitwarden-sdk-server
 external_secrets_operator_containerfile_name = Containerfile.external-secrets-operator
@@ -10,16 +7,7 @@ commit_sha = $(strip $(shell git rev-parse HEAD))
 source_url = $(strip $(shell git remote get-url origin))
 
 ## release version to be used for image tags and build args to add labels to images.
-RELEASE_VERSION = v0.1
-
-## current branch name of the external-secrets submodule.
-EXTERNAL_SECRETS_BRANCH ?= release-0.14.3
-
-## current branch name of the bitwarden-sdk-server submodule.
-BITWARDEN_SDK_SERVER_BRANCH ?= release-0.4.2
-
-## current branch name of the external-secrets-operator submodule
-EXTERNAL_SECRETS_OPERATOR_BRANCH ?= release-0.1.0
+RELEASE_VERSION = v1.0
 
 ## container build tool to use for creating images.
 CONTAINER_ENGINE ?= podman
@@ -70,18 +58,14 @@ all: verify
 ## checkout submodules branch to match the parent branch.
 .PHONY: switch-submodules-branch
 switch-submodules-branch:
-	cd $(external_secrets_submodule_dir); git checkout $(EXTERNAL_SECRETS_BRANCH); cd - > /dev/null
-	cd $(bitwarden_sdk_server_submodule_dir); git checkout $(BITWARDEN_SDK_SERVER_BRANCH); cd - > /dev/null
-	cd $(external_secrets_operator_submodule_dir); git checkout $(EXTERNAL_SECRETS_OPERATOR_BRANCH); cd - > /dev/null
 	# update with local cache.
-	git submodule update
+	git submodule update --recursive
 
 ## update submodules revision to match the revision of the origin repository.
 .PHONY: update-submodules
 update-submodules:
-	git submodule update --remote $(external_secrets_submodule_dir)
-	git submodule update --remote $(bitwarden_sdk_server_submodule_dir)
-	git submodule update --remote $(external_secrets_operator_submodule_dir)
+	git submodule foreach --recursive 'git fetch -t'
+	git submodule update --remote --recursive
 
 ## build all the images - operator, operand and operator-bundle.
 .PHONY: build-images
