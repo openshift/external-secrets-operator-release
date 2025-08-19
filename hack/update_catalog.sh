@@ -46,7 +46,7 @@ verify_bundle_image()
 	fi
 
 	log_info "inspecting ${OPERATOR_BUNDLE_IMAGE} bundle image"
-	media_type="$(podman run -e REGISTRY_AUTH_FILE="/tmp/auth.json" --rm -v "${auth_file}:/tmp/auth.json" \
+	media_type="$(podman run -e REGISTRY_AUTH_FILE="/tmp/auth.json" --rm -v "${auth_file}:/tmp/auth.json:z" \
 		quay.io/skopeo/stable:latest inspect --raw docker://"${OPERATOR_BUNDLE_IMAGE}" | jq -r .mediaType)"
 
 	case $media_type in
