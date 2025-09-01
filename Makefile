@@ -1,4 +1,10 @@
 ## local variables.
+external_secrets_submodule_path = external-secrets
+external_secrets_tag = $(strip $(shell git config -f .gitmodules submodule.external-secrets.tag))
+bitwarden_sdk_server_submodule_path = bitwarden-sdk-server
+bitwarden_sdk_server_tag = $(strip $(shell git config -f .gitmodules submodule.bitwarden_sdk_server.tag))
+external_secrets_operator_submodule_path = external-secrets-operator
+external_secrets_operator_branch = $(strip $(shell git config -f .gitmodules submodule.external-secrets-operator.branch))
 external_secrets_containerfile_name = Containerfile.external-secrets
 bitwarden_sdk_server_containerfile_name = Containerfile.bitwarden-sdk-server
 external_secrets_operator_containerfile_name = Containerfile.external-secrets-operator
@@ -65,7 +71,9 @@ switch-submodules-branch:
 .PHONY: update-submodules
 update-submodules:
 	git submodule foreach --recursive 'git fetch -t'
-	git submodule update --remote --recursive
+	cd $(external_secrets_submodule_path); git checkout $(external_secrets_tag); cd - > /dev/null
+	cd $(bitwarden_sdk_server_submodule_path); git checkout $(bitwarden_sdk_server_tag); cd - > /dev/null
+	cd $(external_secrets_operator_submodule_path); git checkout $(external_secrets_operator_branch); cd - > /dev/null
 
 ## build all the images - operator, operand and operator-bundle.
 .PHONY: build-images
