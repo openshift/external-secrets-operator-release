@@ -1,5 +1,5 @@
 ---
-image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:0de1ef917691704e4530f552747cf4e3c4b6ce8cac91a1f6c225ddd9029009dd
+image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:5fb2bd64a3a54504dde2672dc86ff3ea6498193d6be01fa0babf15f3c184a71d
 name: external-secrets-operator.v1.0.0
 package: openshift-external-secrets-operator
 properties:
@@ -131,7 +131,7 @@ properties:
 - type: olm.gvk
   value:
     group: operator.openshift.io
-    kind: ExternalSecrets
+    kind: ExternalSecretsConfig
     version: v1alpha1
 - type: olm.gvk
   value:
@@ -153,6 +153,9 @@ properties:
             "metadata": {
               "annotations": {
                 "external-secrets.io/example": "true"
+              },
+              "labels": {
+                "app": "external-secrets-operator"
               },
               "name": "secret-cluster"
             },
@@ -190,6 +193,9 @@ properties:
               "annotations": {
                 "external-secrets.io/example": "true"
               },
+              "labels": {
+                "app": "external-secrets-operator"
+              },
               "name": "gcp-cluster-secretstore"
             },
             "spec": {
@@ -215,6 +221,9 @@ properties:
             "metadata": {
               "annotations": {
                 "external-secrets.io/example": "true"
+              },
+              "labels": {
+                "app": "external-secrets-operator"
               },
               "name": "gcp-secret",
               "namespace": "external-secrets"
@@ -247,6 +256,9 @@ properties:
               "annotations": {
                 "external-secrets.io/disable-maintenance-checks": "true"
               },
+              "labels": {
+                "app": "external-secrets-operator"
+              },
               "name": "secretstore",
               "namespace": "external-secrets"
             },
@@ -272,6 +284,9 @@ properties:
             "metadata": {
               "annotations": {
                 "external-secrets.io/example": "true"
+              },
+              "labels": {
+                "app": "external-secrets-operator"
               },
               "name": "pushsecret-sample",
               "namespace": "external-secrets"
@@ -307,6 +322,9 @@ properties:
               "annotations": {
                 "external-secrets.io/example": "true"
               },
+              "labels": {
+                "app": "external-secrets-operator"
+              },
               "name": "password-sample",
               "namespace": "external-secrets"
             },
@@ -320,11 +338,10 @@ properties:
           },
           {
             "apiVersion": "operator.openshift.io/v1alpha1",
-            "kind": "ExternalSecrets",
+            "kind": "ExternalSecretsConfig",
             "metadata": {
               "labels": {
-                "app.kubernetes.io/managed-by": "kustomize",
-                "app.kubernetes.io/name": "external-secrets-operator"
+                "app": "external-secrets-operator"
               },
               "name": "cluster"
             },
@@ -335,8 +352,7 @@ properties:
             "kind": "ExternalSecretsManager",
             "metadata": {
               "labels": {
-                "app.kubernetes.io/managed-by": "kustomize",
-                "app.kubernetes.io/name": "external-secrets-operator"
+                "app": "external-secrets-operator"
               },
               "name": "cluster"
             },
@@ -346,20 +362,20 @@ properties:
       capabilities: Basic Install
       categories: Security
       console.openshift.io/disable-operand-delete: "true"
-      containerImage: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:d60df2d40bb69bab26dd4cbed3e8551ef1726ff8929600bd48786333c8a92f89
-      createdAt: 2025-08-19T09:17:56
+      containerImage: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:72c906d2908f999e8ac26a36a882a230973d07e4ddfd0b7935ccf8b30ad90ef2
+      createdAt: 2025-10-28T11:00:32
       features.operators.openshift.io/cnf: "false"
       features.operators.openshift.io/cni: "false"
       features.operators.openshift.io/csi: "false"
       features.operators.openshift.io/disconnected: "false"
       features.operators.openshift.io/fips-compliant: "true"
-      features.operators.openshift.io/proxy-aware: "false"
+      features.operators.openshift.io/proxy-aware: "true"
       features.operators.openshift.io/tls-profiles: "false"
       features.operators.openshift.io/token-auth-aws: "false"
       features.operators.openshift.io/token-auth-azure: "false"
       features.operators.openshift.io/token-auth-gcp: "false"
       olm.skipRange: <1.0.0
-      operator.openshift.io/uninstall-message: The external secrets operator for Red
+      operator.openshift.io/uninstall-message: The External Secrets Operator for Red
         Hat OpenShift will be removed from external-secrets-operator namespace. If
         your Operator configured any off-cluster resources, these will continue to
         run and require manual cleanup. All operands created by the operator will
@@ -376,37 +392,62 @@ properties:
     apiServiceDefinitions: {}
     crdDescriptions:
       owned:
-      - kind: ACRAccessToken
+      - description: |-
+          ACRAccessToken returns an Azure Container Registry token that can be used for pushing/pulling images.
+          Note: by default it will return an ACR Refresh Token with full access (depending on the identity).
+          This can be scoped down to the repository level using .spec.scope. In case scope is defined it will return an ACR Access Token.
+
+          See docs: https://github.com/Azure/acr/blob/main/docs/AAD-OAuth.md
+        displayName: ACRAccessToken
+        kind: ACRAccessToken
         name: acraccesstokens.generators.external-secrets.io
         version: v1alpha1
-      - kind: ClusterExternalSecret
+      - description: ClusterExternalSecret is the Schema for the clusterexternalsecrets
+          API.
+        displayName: ClusterExternalSecret
+        kind: ClusterExternalSecret
         name: clusterexternalsecrets.external-secrets.io
         version: v1
-      - kind: ClusterGenerator
+      - description: ClusterGenerator represents a cluster-wide generator which can
+          be referenced as part of `generatorRef` fields.
+        displayName: ClusterGenerator
+        kind: ClusterGenerator
         name: clustergenerators.generators.external-secrets.io
         version: v1alpha1
-      - kind: ClusterPushSecret
+      - description: ClusterPushSecret is the Schema for the clusterpushsecrets API.
+        displayName: ClusterPushSecret
+        kind: ClusterPushSecret
         name: clusterpushsecrets.external-secrets.io
         version: v1alpha1
-      - kind: ClusterSecretStore
+      - description: ClusterSecretStore represents a secure external location for
+          storing secrets, which can be referenced as part of `storeRef` fields.
+        displayName: ClusterSecretStore
+        kind: ClusterSecretStore
         name: clustersecretstores.external-secrets.io
         version: v1
-      - kind: ECRAuthorizationToken
+      - description: |-
+          ECRAuthorizationToken uses the GetAuthorizationToken API to retrieve an authorization token. The authorization
+          token is valid for 12 hours. The authorizationToken returned is a base64 encoded string that can be decoded and
+          used in a Docker login command to authenticate to a registry. For more information, see Registry authentication
+          (https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth)
+          in the Amazon Elastic Container Registry User Guide.
+        displayName: ECRAuthorizationToken
+        kind: ECRAuthorizationToken
         name: ecrauthorizationtokens.generators.external-secrets.io
         version: v1alpha1
-      - kind: ExternalSecret
+      - description: ExternalSecret is the Schema for the external-secrets API.
+        displayName: ExternalSecret
+        kind: ExternalSecret
         name: externalsecrets.external-secrets.io
         version: v1
       - description: |-
-          ExternalSecrets describes configuration and information about the managed external-secrets
-          deployment. The name must be `cluster` as ExternalSecrets is a singleton,
-          allowing only one instance per cluster.
+          ExternalSecretsConfig describes configuration and information about the managed external-secrets deployment.
+          The name must be `cluster` as ExternalSecretsConfig is a singleton, allowing only one instance per cluster.
 
-          When an ExternalSecrets is created, a new deployment is created which manages the
-          external-secrets and keeps it in the desired state.
-        displayName: ExternalSecrets
-        kind: ExternalSecrets
-        name: externalsecrets.operator.openshift.io
+          When an ExternalSecretsConfig is created, the controller installs the external-secrets and keeps it in the desired state.
+        displayName: ExternalSecretsConfig
+        kind: ExternalSecretsConfig
+        name: externalsecretsconfigs.operator.openshift.io
         version: v1alpha1
       - description: |-
           ExternalSecretsManager describes configuration and information about the deployments managed by
@@ -420,51 +461,91 @@ properties:
         kind: ExternalSecretsManager
         name: externalsecretsmanagers.operator.openshift.io
         version: v1alpha1
-      - kind: GCRAccessToken
+      - description: GCRAccessToken generates a GCP access token that can be used
+          to authenticate with GCR.
+        displayName: GCRAccessToken
+        kind: GCRAccessToken
         name: gcraccesstokens.generators.external-secrets.io
         version: v1alpha1
-      - kind: GeneratorState
+      - description: GeneratorState is the Schema for the generatorstates API.
+        displayName: GeneratorState
+        kind: GeneratorState
         name: generatorstates.generators.external-secrets.io
         version: v1alpha1
-      - kind: GithubAccessToken
+      - description: GithubAccessToken generates a ghs_ access token
+        displayName: GithubAccessToken
+        kind: GithubAccessToken
         name: githubaccesstokens.generators.external-secrets.io
         version: v1alpha1
-      - kind: Grafana
+      - description: Grafana is the Schema for the grafanas API.
+        displayName: Grafana
+        kind: Grafana
         name: grafanas.generators.external-secrets.io
         version: v1alpha1
-      - kind: MFA
+      - description: MFA generates a new TOTP token that is compliant with RFC 6238.
+        displayName: MFA
+        kind: MFA
         name: mfas.generators.external-secrets.io
         version: v1alpha1
-      - kind: Password
+      - description: |-
+          Password generates a random password based on the configuration parameters in spec. You can specify the length,
+          character set and other attributes.
+        displayName: Password
+        kind: Password
         name: passwords.generators.external-secrets.io
         version: v1alpha1
-      - kind: PushSecret
+      - description: PushSecret is the Schema for the pushsecrets API.
+        displayName: PushSecret
+        kind: PushSecret
         name: pushsecrets.external-secrets.io
         version: v1alpha1
-      - kind: QuayAccessToken
+      - description: QuayAccessToken generates a Quay OAuth token for pulling/pushing
+          images.
+        displayName: QuayAccessToken
+        kind: QuayAccessToken
         name: quayaccesstokens.generators.external-secrets.io
         version: v1alpha1
-      - kind: SecretStore
+      - description: SecretStore represents a secure external location for storing
+          secrets, which can be referenced as part of `storeRef` fields.
+        displayName: SecretStore
+        kind: SecretStore
         name: secretstores.external-secrets.io
         version: v1
-      - kind: SSHKey
+      - description: SSHKey generates SSH key pairs.
+        displayName: SSHKey
+        kind: SSHKey
         name: sshkeys.generators.external-secrets.io
         version: v1alpha1
-      - kind: STSSessionToken
+      - description: |-
+          STSSessionToken uses the GetSessionToken API to retrieve an authorization token. The authorization token is
+          valid for 12 hours. The authorizationToken returned is a base64 encoded string that can be decoded.
+          For more information, see GetSessionToken (https://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html).
+        displayName: STSSessionToken
+        kind: STSSessionToken
         name: stssessiontokens.generators.external-secrets.io
         version: v1alpha1
-      - kind: UUID
+      - description: UUID generates a version 1 UUID (for example, 6ba7b810-9dad-11d1-80b4-00c04fd430c8).
+        displayName: UUID
+        kind: UUID
         name: uuids.generators.external-secrets.io
         version: v1alpha1
-      - kind: VaultDynamicSecret
+      - description: VaultDynamicSecret is the Schema for the vaultdynamicsecrets
+          API.
+        displayName: VaultDynamicSecret
+        kind: VaultDynamicSecret
         name: vaultdynamicsecrets.generators.external-secrets.io
         version: v1alpha1
-      - kind: Webhook
+      - description: |-
+          Webhook connects to a third party API server to handle the secrets generation configuration parameters in spec. You
+          can specify the server, the token, and additional body parameters. See documentation for the full API specification
+          for requests and responses.
+        displayName: Webhook
+        kind: Webhook
         name: webhooks.generators.external-secrets.io
         version: v1alpha1
-    description: external secrets operator for Red Hat OpenShift deploys and manages
+    description: External Secrets Operator for Red Hat OpenShift deploys and manages
       `external-secrets` application in OpenShift clusters. `external-secrets` provides
-      an uniformed interface to fetch secrets stored in external providers like  AWS
+      an uniform interface to fetch secrets stored in external providers like  AWS
       Secrets Manager, HashiCorp Vault, Google Secrets Manager, Azure Key Vault, IBM
       Cloud Secrets Manager to name a few, stores them as secrets in OpenShift. It
       provides APIs to define authentication and the details of the secret to fetch.
@@ -502,12 +583,12 @@ properties:
     provider:
       name: Red Hat, Inc.
 relatedImages:
-- image: registry.stage.redhat.io/external-secrets-operator/bitwarden-sdk-server-rhel9@sha256:bf150c2d1ab13d6bf85c377c9c06538e14c34254fb13b6054efa0a02b3c055ab
+- image: registry.stage.redhat.io/external-secrets-operator/bitwarden-sdk-server-rhel9@sha256:0e00fb4b8fc3815e55e9c593766cfa85a34671b8401eabc488b48b66b5d1b374
   name: bitwarden-sdk-server
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:0de1ef917691704e4530f552747cf4e3c4b6ce8cac91a1f6c225ddd9029009dd
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:5fb2bd64a3a54504dde2672dc86ff3ea6498193d6be01fa0babf15f3c184a71d
   name: ""
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:d60df2d40bb69bab26dd4cbed3e8551ef1726ff8929600bd48786333c8a92f89
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:72c906d2908f999e8ac26a36a882a230973d07e4ddfd0b7935ccf8b30ad90ef2
   name: ""
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-rhel9@sha256:a12ca2957bf2f67f06a3e3ab3643670b2da1dee2f951b5742e07dbb92e0db542
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-rhel9@sha256:a594323b4d3ad6a739246f3767231ad2d57ca94bb1d035610d52a525b420b452
   name: external-secrets
 schema: olm.bundle
