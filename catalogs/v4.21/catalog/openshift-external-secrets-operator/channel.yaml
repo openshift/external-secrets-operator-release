@@ -1,0 +1,14 @@
+---
+entries:
+- name: external-secrets-operator.v1.0.0
+  skipRange: '<1.0.0'
+name: stable-v1
+package: openshift-external-secrets-operator
+schema: olm.channel
+---
+entries:
+- name: external-secrets-operator.v1.0.0
+  skipRange: '<1.0.0'
+name: stable-v1.0
+package: openshift-external-secrets-operator
+schema: olm.channel
