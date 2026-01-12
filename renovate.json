@@ -6,11 +6,31 @@
 	"assigneesFromCodeOwners": true,
 	"automergeStrategy": "auto",
 	"automergeType": "pr",
-	"commitMessagePrefix": "NO-JIRA: ",
+	"commitMessagePrefix": "[{{baseBranch}}] NO-JIRA: ",
 	"ignoreTests": false,
 	"rebaseLabel": "needs-rebase",
 	"rebaseWhen": "behind-base-branch",
 	"recreateWhen": "always",
+	"packageRules": [
+		{
+			"description": "Update RHEL UBI base images monthly (fetch latest tag digest)",
+			"matchDatasources": ["docker"],
+			"matchPackageNames": ["registry.access.redhat.com/ubi9/ubi-minimal"],
+			"schedule": ["on the first day of the month"],
+			"pinDigests": true,
+			"matchCurrentValue": "latest",
+			"commitMessageTopic": "Updates RHEL UBI base image digest",
+			"prBodyNotes": [
+				"**Base Image Update Info:**",
+				"- Registry: `registry.access.redhat.com`",
+				"- Image: `ubi9/ubi-minimal`",
+				"- Tag: `latest`",
+				"- Previous digest: `{{currentDigestShort}}`",
+				"- New digest: `{{newDigestShort}}`",
+				""
+			]
+		}
+	],
 	"tekton": {
 		"enabled": true,
 		"packageRules": [
