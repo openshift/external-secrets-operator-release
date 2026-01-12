@@ -2,7 +2,7 @@
 external_secrets_submodule_path = external-secrets
 external_secrets_tag = $(strip $(shell git config -f .gitmodules submodule.external-secrets.tag))
 bitwarden_sdk_server_submodule_path = bitwarden-sdk-server
-bitwarden_sdk_server_tag = $(strip $(shell git config -f .gitmodules submodule.bitwarden_sdk_server.tag))
+bitwarden_sdk_server_tag = $(strip $(shell git config -f .gitmodules submodule.bitwarden-sdk-server.tag))
 external_secrets_operator_submodule_path = external-secrets-operator
 external_secrets_operator_branch = $(strip $(shell git config -f .gitmodules submodule.external-secrets-operator.branch))
 external_secrets_containerfile_name = Containerfile.external-secrets
@@ -13,7 +13,7 @@ commit_sha = $(strip $(shell git rev-parse HEAD))
 source_url = $(strip $(shell git remote get-url origin))
 
 ## release version to be used for image tags and build args to add labels to images.
-RELEASE_VERSION = v1.0
+RELEASE_VERSION = v1.1
 
 ## container build tool to use for creating images.
 CONTAINER_ENGINE ?= podman
