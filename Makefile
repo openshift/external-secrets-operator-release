@@ -73,7 +73,7 @@ update-submodules:
 	git submodule foreach --recursive 'git fetch -t'
 	cd $(external_secrets_submodule_path); git checkout $(external_secrets_tag); cd - > /dev/null
 	cd $(bitwarden_sdk_server_submodule_path); git checkout $(bitwarden_sdk_server_tag); cd - > /dev/null
-	cd $(external_secrets_operator_submodule_path); git checkout $(external_secrets_operator_branch); cd - > /dev/null
+	cd $(external_secrets_operator_submodule_path); git checkout $(external_secrets_operator_branch) && git pull origin $(external_secrets_operator_branch); cd - > /dev/null
 
 ## build all the images - operator, operand and operator-bundle.
 .PHONY: build-images

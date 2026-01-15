@@ -9,4 +9,4 @@
 [submodule "external-secrets-operator"]
 	path = external-secrets-operator
 	url = https://github.com/openshift/external-secrets-operator.git
-	branch = release-1.1
+	branch = main
