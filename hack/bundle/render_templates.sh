@@ -34,7 +34,7 @@ update_csv_manifest()
 	fi
 
 	## replace external-secrets operand related images
-	sed -i "s#oci.external-secrets.io/external-secrets/external-secrets.*#${EXTERNAL_SECRETS_IMAGE}#g" "${CSV_FILE}"
+	sed -i "s#ghcr.io/external-secrets/external-secrets.*#${EXTERNAL_SECRETS_IMAGE}#g" "${CSV_FILE}"
 
 	## replace bitwrden-sdk-server images
 	sed -i "s#ghcr.io/external-secrets/bitwarden-sdk-server.*#${BITWARDEN_SDK_SERVER_IMAGE}#g" "${CSV_FILE}"
