@@ -34,6 +34,7 @@ ENV BW_SECRETS_MANAGER_STATE_PATH='/state'
 USER 65534:65534
 
 LABEL com.redhat.component="external-secrets-bitwarden-sdk-server-container" \
+      cpe="cpe:/a:redhat:external_secrets_operator:1.1::el9" \
       name="external-secrets-operator/bitwarden-sdk-server-rhel9" \
       version="${RELEASE_VERSION}" \
       summary="external-secrets-bitwarden-sdk-server" \
