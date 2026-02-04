@@ -1,6 +1,6 @@
 ---
-image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:7d6675f1d93236021dec59e5e777ca0af2fe758826e78c3ad60de33aae8b2549
-name: external-secrets-operator.v1.1.0
+image: quay.io/bharath-b-rh/external-secrets-operator-bundle:v1.1.0
+name: openshift-external-secrets-operator.v1.1.0
 package: openshift-external-secrets-operator
 properties:
 - type: olm.gvk
@@ -367,8 +367,8 @@ properties:
       capabilities: Basic Install
       categories: Security
       console.openshift.io/disable-operand-delete: "true"
-      containerImage: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:cc238f45409c4d41480582ea6f036900ff02a7d5a6fb34b674924610358e33f5
-      createdAt: 2026-01-15T10:37:18
+      containerImage: quay.io/bharath-b-rh/external-secrets-operator:v1.1.0
+      createdAt: "2026-01-19T06:48:22Z"
       features.operators.openshift.io/cnf: "false"
       features.operators.openshift.io/cni: "false"
       features.operators.openshift.io/csi: "false"
@@ -590,16 +590,16 @@ properties:
     - email: support@redhat.com
       name: Red Hat Support
     maturity: alpha
-    minKubeVersion: 1.32.0
+    minKubeVersion: 1.31.0
     provider:
       name: Red Hat, Inc.
 relatedImages:
+- image: quay.io/bharath-b-rh/external-secrets-operator-bundle:v1.1.0
+  name: ""
+- image: quay.io/bharath-b-rh/external-secrets-operator:v1.1.0
+  name: ""
 - image: registry.stage.redhat.io/external-secrets-operator/bitwarden-sdk-server-rhel9@sha256:b06173da39700d2aa020d0f2c9ec890fc11ccb19c1b10d86197e9bfd9cf4c4ed
   name: bitwarden-sdk-server
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:7d6675f1d93236021dec59e5e777ca0af2fe758826e78c3ad60de33aae8b2549
-  name: ""
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:cc238f45409c4d41480582ea6f036900ff02a7d5a6fb34b674924610358e33f5
-  name: ""
 - image: registry.stage.redhat.io/external-secrets-operator/external-secrets-rhel9@sha256:77553943b093fe92250e7bb611c2b1773e19c1eb79b4d8157dc27c4f5451a5dd
   name: external-secrets
 schema: olm.bundle
