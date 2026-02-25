@@ -13,7 +13,7 @@ commit_sha = $(strip $(shell git rev-parse HEAD))
 source_url = $(strip $(shell git remote get-url origin))
 
 ## release version to be used for image tags and build args to add labels to images.
-RELEASE_VERSION = v1.1
+RELEASE_VERSION = v1.1.0
 
 ## container build tool to use for creating images.
 CONTAINER_ENGINE ?= podman
