@@ -9,7 +9,7 @@ declare EXTERNAL_SECRETS_IMAGE
 declare BITWARDEN_SDK_SERVER_IMAGE
 declare EXTERNAL_SECRETS_OPERATOR_IMAGE
 
-CSV_FILE_NAME="external-secrets-operator.clusterserviceversion.yaml"
+CSV_FILE_NAME="openshift-external-secrets-operator.clusterserviceversion.yaml"
 ANNOTATIONS_FILE_NAME="annotations.yaml"
 GREEN_COLOR_TEXT='\033[0;32m'
 RED_COLOR_TEXT='\033[0;31m'
