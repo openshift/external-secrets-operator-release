@@ -1,6 +1,6 @@
 ## local variables.
 external_secrets_submodule_path = external-secrets
-external_secrets_tag = $(strip $(shell git config -f .gitmodules submodule.external-secrets.tag))
+external_secrets_branch = $(strip $(shell git config -f .gitmodules submodule.external-secrets.branch))
 bitwarden_sdk_server_submodule_path = bitwarden-sdk-server
 bitwarden_sdk_server_tag = $(strip $(shell git config -f .gitmodules submodule.bitwarden-sdk-server.tag))
 external_secrets_operator_submodule_path = external-secrets-operator
@@ -71,7 +71,7 @@ switch-submodules-branch:
 .PHONY: update-submodules
 update-submodules:
 	git submodule foreach --recursive 'git fetch -t'
-	cd $(external_secrets_submodule_path); git checkout $(external_secrets_tag); cd - > /dev/null
+	cd $(external_secrets_submodule_path); git checkout $(external_secrets_branch) && git pull origin $(external_secrets_branch); cd - > /dev/null
 	cd $(bitwarden_sdk_server_submodule_path); git checkout $(bitwarden_sdk_server_tag); cd - > /dev/null
 	cd $(external_secrets_operator_submodule_path); git checkout $(external_secrets_operator_branch) && git pull origin $(external_secrets_operator_branch); cd - > /dev/null
 
