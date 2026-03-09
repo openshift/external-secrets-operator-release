@@ -1,5 +1,5 @@
 ---
-image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:c5fbe67a270786e70c628b4524d11b86af1f4ded57d34d02bbe29a54c2d3ca8c
+image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:57a7ecdab3d7301b01de649184762624be7c877b82ce22653aa2c635d7f9df84
 name: openshift-external-secrets-operator.v1.1.0
 package: openshift-external-secrets-operator
 properties:
@@ -367,8 +367,8 @@ properties:
       capabilities: Basic Install
       categories: Security
       console.openshift.io/disable-operand-delete: "true"
-      containerImage: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:074dae3205e34d005c5a1b80912898ca6b02818e5152d0a84a6dbc3f25f7e322
-      createdAt: 2026-03-05T06:36:40
+      containerImage: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:7e29f05b100326125d0e8dcc655f28a8a89759059a5d082f915a94c8a4648ef7
+      createdAt: 2026-03-09T08:45:41
       features.operators.openshift.io/cnf: "false"
       features.operators.openshift.io/cni: "false"
       features.operators.openshift.io/csi: "false"
@@ -590,15 +590,15 @@ properties:
     - email: support@redhat.com
       name: Red Hat Support
     maturity: alpha
-    minKubeVersion: 1.32.0
+    minKubeVersion: 1.31.0
     provider:
       name: Red Hat, Inc.
 relatedImages:
 - image: registry.stage.redhat.io/external-secrets-operator/bitwarden-sdk-server-rhel9@sha256:c8d6027c688ab18f71381b7d5be2e6d6be323b869f0f08d403501e203ccd2db3
   name: bitwarden-sdk-server
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:c5fbe67a270786e70c628b4524d11b86af1f4ded57d34d02bbe29a54c2d3ca8c
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:57a7ecdab3d7301b01de649184762624be7c877b82ce22653aa2c635d7f9df84
   name: ""
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:074dae3205e34d005c5a1b80912898ca6b02818e5152d0a84a6dbc3f25f7e322
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:7e29f05b100326125d0e8dcc655f28a8a89759059a5d082f915a94c8a4648ef7
   name: ""
 - image: registry.stage.redhat.io/external-secrets-operator/external-secrets-rhel9@sha256:685506af015863fbd548988d010b395f76b67306d7223a4960fe971e761467ea
   name: external-secrets
