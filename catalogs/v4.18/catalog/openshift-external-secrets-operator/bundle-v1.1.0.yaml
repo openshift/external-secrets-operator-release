@@ -1,5 +1,5 @@
 ---
-image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:57a7ecdab3d7301b01de649184762624be7c877b82ce22653aa2c635d7f9df84
+image: registry.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:9c22b8664f5166c6cabb862dd5de43bfdfc45143f685182c563f0e02758c81ff
 name: openshift-external-secrets-operator.v1.1.0
 package: openshift-external-secrets-operator
 properties:
@@ -367,8 +367,8 @@ properties:
       capabilities: Basic Install
       categories: Security
       console.openshift.io/disable-operand-delete: "true"
-      containerImage: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:7e29f05b100326125d0e8dcc655f28a8a89759059a5d082f915a94c8a4648ef7
-      createdAt: 2026-03-09T08:45:41
+      containerImage: registry.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:ffa7e19dea031e510f656145416b8cebce558d34c9a7e1fecb506f0d80b3fc3c
+      createdAt: 2026-03-24T09:12:43
       features.operators.openshift.io/cnf: "false"
       features.operators.openshift.io/cni: "false"
       features.operators.openshift.io/csi: "false"
@@ -594,12 +594,12 @@ properties:
     provider:
       name: Red Hat, Inc.
 relatedImages:
-- image: registry.stage.redhat.io/external-secrets-operator/bitwarden-sdk-server-rhel9@sha256:c8d6027c688ab18f71381b7d5be2e6d6be323b869f0f08d403501e203ccd2db3
+- image: registry.redhat.io/external-secrets-operator/bitwarden-sdk-server-rhel9@sha256:ff474c98280b839d3744c2590a70c7b1eac12d0e1fef373a618a4c9fb4221647
   name: bitwarden-sdk-server
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:57a7ecdab3d7301b01de649184762624be7c877b82ce22653aa2c635d7f9df84
+- image: registry.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:9c22b8664f5166c6cabb862dd5de43bfdfc45143f685182c563f0e02758c81ff
   name: ""
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:7e29f05b100326125d0e8dcc655f28a8a89759059a5d082f915a94c8a4648ef7
+- image: registry.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:ffa7e19dea031e510f656145416b8cebce558d34c9a7e1fecb506f0d80b3fc3c
   name: ""
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-rhel9@sha256:685506af015863fbd548988d010b395f76b67306d7223a4960fe971e761467ea
+- image: registry.redhat.io/external-secrets-operator/external-secrets-rhel9@sha256:ac9f75e7a0bccdb770f2b09a0ff044b9fe8692c4da058577cdaad54caa702c16
   name: external-secrets
 schema: olm.bundle
