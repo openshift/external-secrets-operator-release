@@ -6,7 +6,7 @@
 	"assigneesFromCodeOwners": true,
 	"automergeStrategy": "auto",
 	"automergeType": "pr",
-	"commitMessagePrefix": "NO-JIRA: ",
+	"commitMessagePrefix": "[{{baseBranch}}] NO-JIRA: ",
 	"ignoreTests": false,
 	"rebaseLabel": "needs-rebase",
 	"rebaseWhen": "behind-base-branch",
