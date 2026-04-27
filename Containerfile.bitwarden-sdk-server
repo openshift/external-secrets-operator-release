@@ -13,7 +13,7 @@ ENV OPENSHIFT_CI=1
 
 RUN mkdir state && CGO_LDFLAGS="-lm" go build -a -ldflags '-linkmode external -extldflags "-static -Wl,-unresolved-symbols=ignore-all"' -tags ${GO_BUILD_TAGS} -o bin/bitwarden-sdk-server main.go
 
-FROM registry.redhat.io/rhel9-4-els/rhel:9.4-1774256802
+FROM registry.redhat.io/rhel9-4-els/rhel:9.4-1777251729
 
 # Values for below ARGs will passed from tekton configs for konflux builds.
 ## Release version of the external-secrets-bitwarden-sdk-server source code used in the build.
