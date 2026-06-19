@@ -1,8 +1,16 @@
+# Warn when an undefined variable is referenced, helping catch typos and missing definitions.
+MAKEFLAGS += --warn-undefined-variables
+
+# Setting SHELL to bash allows bash commands to be executed by recipes.
+# Options are set to exit when a recipe line exits non-zero or a piped command fails.
+SHELL := /usr/bin/env bash
+.SHELLFLAGS := -euo pipefail -c
+
 ## local variables.
 external_secrets_submodule_path = external-secrets
 external_secrets_branch = $(strip $(shell git config -f .gitmodules submodule.external-secrets.branch))
 bitwarden_sdk_server_submodule_path = bitwarden-sdk-server
-bitwarden_sdk_server_tag = $(strip $(shell git config -f .gitmodules submodule.bitwarden-sdk-server.tag))
+bitwarden_sdk_server_branch = $(strip $(shell git config -f .gitmodules submodule.bitwarden-sdk-server.branch))
 external_secrets_operator_submodule_path = external-secrets-operator
 external_secrets_operator_branch = $(strip $(shell git config -f .gitmodules submodule.external-secrets-operator.branch))
 external_secrets_containerfile_name = Containerfile.external-secrets
@@ -12,8 +20,19 @@ external_secrets_operator_bundle_containerfile_name = Containerfile.external-sec
 commit_sha = $(strip $(shell git rev-parse HEAD))
 source_url = $(strip $(shell git remote get-url origin))
 
+## validate that tags and branches are not empty
+ifeq ($(external_secrets_branch),)
+$(error external_secrets_branch is empty.)
+endif
+ifeq ($(bitwarden_sdk_server_branch),)
+$(error bitwarden_sdk_server_branch is empty.)
+endif
+ifeq ($(external_secrets_operator_branch),)
+$(error external_secrets_operator_branch is empty.)
+endif
+
 ## release version to be used for image tags and build args to add labels to images.
-RELEASE_VERSION = v1.1.0
+RELEASE_VERSION = v1.2.0
 
 ## container build tool to use for creating images.
 CONTAINER_ENGINE ?= podman
@@ -72,7 +91,7 @@ switch-submodules-branch:
 update-submodules:
 	git submodule foreach --recursive 'git fetch -t'
 	cd $(external_secrets_submodule_path); git checkout $(external_secrets_branch) && git pull origin $(external_secrets_branch); cd - > /dev/null
-	cd $(bitwarden_sdk_server_submodule_path); git checkout $(bitwarden_sdk_server_tag); cd - > /dev/null
+	cd $(bitwarden_sdk_server_submodule_path); git checkout $(bitwarden_sdk_server_branch) && git pull origin $(bitwarden_sdk_server_branch); cd - > /dev/null
 	cd $(external_secrets_operator_submodule_path); git checkout $(external_secrets_operator_branch) && git pull origin $(external_secrets_operator_branch); cd - > /dev/null
 
 ## build all the images - operator, operand and operator-bundle.

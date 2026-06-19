@@ -3,7 +3,6 @@
 declare -a CONTAINERFILES
 declare -a EXTERNAL_SECRETS_OPERATOR_CONTAINERFILES
 
-
 linter()
 {
 	containerfiles=("$@")
@@ -25,7 +24,7 @@ containerfile_linter()
 		linter "${CONTAINERFILES[@]}"
 		return
 	fi
-	mapfile -t EXTERNAL_SECRETS_OPERATOR_CONTAINERFILES < <(find . -type f -name 'Containerfile*' '!' -path './external-secrets/*' '!' -path './external-secrets-operator/*')
+	mapfile -t EXTERNAL_SECRETS_OPERATOR_CONTAINERFILES < <(find . -type f -name 'Containerfile*' '!' -path './external-secrets/*' '!' -path './external-secrets-operator/*' '!' -path './bitwarden-sdk-server/*')
 	echo "[$(date)] -- INFO  -- running linter on ${EXTERNAL_SECRETS_OPERATOR_CONTAINERFILES[*]}"
 	linter "${EXTERNAL_SECRETS_OPERATOR_CONTAINERFILES[@]}"
 }
