@@ -4,7 +4,7 @@ This repository holds release specific content for external-secrets-operator mai
 requirements for releasing builds through konflux. Repository also holds tekton configuration code added by konflux bots
 and external-secrets-operator and operand(external-secrets) repositories are added as git submodules.
 
-The release branches(ex: release-0.1) contains the configs required for building operator and operand images, and the `main` branch
+The release branches(ex: release-1.2) contains the configs required for building operator and operand images, and the `main` branch
 contains the configs required for building catalog index images. This is done because catalog index images are specific to OCP
 release and operator, operand and bundle images are specific external-secrets-operator release.
 

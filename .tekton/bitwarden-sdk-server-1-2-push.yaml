@@ -8,14 +8,14 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
-      == "release-1.1" && (".tekton/bitwarden-sdk-server-1-1-push.yaml".pathChanged()
+      == "release-1.2" && (".tekton/bitwarden-sdk-server-1-2-push.yaml".pathChanged()
       || "Containerfile.bitwarden-sdk-server".pathChanged() || "bitwarden-sdk-server".pathChanged())
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: bitwarden-sdk-server-1-1
-    appstudio.openshift.io/component: bitwarden-sdk-server-1-1
+    appstudio.openshift.io/application: bitwarden-sdk-server-1-2
+    appstudio.openshift.io/component: bitwarden-sdk-server-1-2
     pipelines.appstudio.openshift.io/type: build
-  name: bitwarden-sdk-server-1-1-on-push
+  name: bitwarden-sdk-server-1-2-on-push
   namespace: external-secrets-oap-tenant
 spec:
   params:
@@ -24,7 +24,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/external-secrets-oap-tenant/bitwarden-sdk-server-1-1/bitwarden-sdk-server-1-1:{{revision}}
+    value: quay.io/redhat-user-workloads/external-secrets-oap-tenant/bitwarden-sdk-server-1-2/bitwarden-sdk-server-1-2:{{revision}}
   # We configure the build-platforms only in bitwarden PaC, since it's supported only in x86 and arm64 archs
   - name: build-platforms
     value:
@@ -36,7 +36,7 @@ spec:
     value: .
   - name: build-args
     value:
-      - RELEASE_VERSION=v0.5.2
+      - RELEASE_VERSION=v0.6.0
       - COMMIT_SHA={{revision}}
       - SOURCE_URL={{source_url}}
   - name: prefetch-input
@@ -48,7 +48,7 @@ spec:
   pipelineRef:
     name: multi-arch-build-pipeline
   taskRunTemplate:
-    serviceAccountName: build-pipeline-bitwarden-sdk-server-1-1
+    serviceAccountName: build-pipeline-bitwarden-sdk-server-1-2
   workspaces:
   - name: git-auth
     secret:
