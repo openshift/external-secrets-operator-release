@@ -22,8 +22,14 @@ OPM_TOOL_PATH ?= $(TOOL_BIN_DIR)/opm
 ## Operator bundle image to use for generating catalog.
 OPERATOR_BUNDLE_IMAGE ?=
 
-## Catalog directory where generated catalog will be stored. Directory must have sub-directory with package `openshift-external-secrets-operator` name.
-CATALOG_DIR ?= "catalog/"
+## Catalog directory where generated catalog will be stored (e.g. catalogs/v4.21/catalog).
+CATALOG_DIR ?=
+
+## Bundle file name to generate under the package directory (e.g. bundle-v1.2.0.yaml).
+BUNDLE_FILE_NAME ?=
+
+## OCP versions to replicate the bundle to: no | yes | 4.19,4.20 | 4.19-4.22
+REPLICATE_BUNDLE_FILE_IN_CATALOGS ?= no
 
 .DEFAULT_GOAL := help
 ## usage summary.
@@ -55,7 +61,10 @@ build-catalog-image:
 ## update catalog using the provided bundle image.
 .PHONY: update-catalog
 update-catalog: get-opm
-	# Ex: make update-catalog OPERATOR_BUNDLE_IMAGE=registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:4114321b0ab6ceb882f26501ff9b22214d90b83d92466e7c5a62217f592c1fed CATALOG_DIR=catalogs/v4.19/catalog BUNDLE_FILE_NAME=bundle-v0.1.0.yaml REPLICATE_BUNDLE_FILE_IN_CATALOGS=no
+	@test -n "$(OPERATOR_BUNDLE_IMAGE)" || { echo "OPERATOR_BUNDLE_IMAGE is required"; exit 1; }
+	@test -n "$(CATALOG_DIR)" || { echo "CATALOG_DIR is required (e.g. catalogs/v4.21/catalog)"; exit 1; }
+	@test -n "$(BUNDLE_FILE_NAME)" || { echo "BUNDLE_FILE_NAME is required (e.g. bundle-v1.2.0.yaml)"; exit 1; }
+	@#ex.: make update-catalog OPERATOR_BUNDLE_IMAGE=registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:8cbe4dcef17c08f845be0bd14d83e5a0047f3e09d5261f63ec50a3d7506d72ac CATALOG_DIR=catalogs/v4.19/catalog BUNDLE_FILE_NAME=bundle-v1.2.0.yaml REPLICATE_BUNDLE_FILE_IN_CATALOGS=4.19-5.0
 	./hack/update_catalog.sh $(OPM_TOOL_PATH) $(OPERATOR_BUNDLE_IMAGE) $(CATALOG_DIR) $(BUNDLE_FILE_NAME) $(REPLICATE_BUNDLE_FILE_IN_CATALOGS)
 
 ## update catalog and build catalog image.

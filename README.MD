@@ -51,3 +51,42 @@ Use the command below to get usage summary and interact with the repository.
 ```console
 make help
 ```
+
+## Updating the catalog
+
+Updating the file-based catalog (FBC) requires both an updated `channel.yaml` and a matching `bundle-*.yaml`. `opm validate` needs both present — either order works, but **update channels first, then run `make update-catalog`**. That way the script adds bundle files and runs `opm validate` on each catalog automatically; you do not need a separate manual validate step.
+
+Between the two steps the catalog is temporarily invalid (channels reference a bundle that does not exist yet). That is expected — complete both steps before merging.
+
+### 1. Update channel.yaml (manual step)
+
+In each affected catalog, **manually update `channel.yaml`** to wire the new version into the upgrade graph. Automated channel updates are intentionally out of scope because release scenarios vary:
+
+- **Minor/major releases** (e.g. v1.1.0 → v1.2.0): add entries to `stable-v1`, create/update `stable-v1.2`, set `replaces` and `skipRange`.
+- **Z-stream releases** (e.g. v1.2.0 → v1.2.1): often only update the head of `stable-v1` without a new channel.
+- **Multiple channels** may need different graphs depending on which bundles exist in that OCP catalog.
+
+When replicating bundles across OCP versions, apply the same channel changes to each target catalog first.
+
+### 2. Generate bundle files
+
+Use `make update-catalog` to render a published bundle image into the catalog. Required flags:
+
+```console
+make update-catalog \
+  OPERATOR_BUNDLE_IMAGE=registry.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:<digest> \
+  CATALOG_DIR=catalogs/v4.21/catalog \
+  BUNDLE_FILE_NAME=bundle-v1.2.0.yaml \
+  REPLICATE_BUNDLE_FILE_IN_CATALOGS=4.19-4.22
+```
+
+`REPLICATE_BUNDLE_FILE_IN_CATALOGS` defaults to `no`. Use comma-separated OCP versions (`4.19,4.20`) or a range (`4.19-4.22`) to copy the generated bundle into other catalog directories. The script runs `opm validate` after generating the bundle and after each replicated copy.
+
+Build the catalog image for each OCP version once both steps are complete.
+
+### Summary
+
+| Step | Action | `opm validate` |
+|------|--------|----------------|
+| 1 | Edit `channel.yaml` manually in each affected catalog | Fails until step 2 (expected) |
+| 2 | `make update-catalog` — add `bundle-*.yaml` | Passes (run automatically by the script) |
