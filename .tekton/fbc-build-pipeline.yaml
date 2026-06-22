@@ -51,6 +51,17 @@ spec:
         description: Add built image into an OCI image index
         name: build-image-index
         type: string
+      - default: "false"
+        description: Enable cache proxy configuration
+        name: enable-cache-proxy
+      - default: "true"
+        description: Use the package registry proxy when prefetching dependencies
+        name: enable-package-registry-proxy
+      - default: .
+        description: Target directories in component's source code to scan with SAST
+          tools. Multiple values should be separated with commas.
+        name: sast-target-dirs
+        type: string
       - default:
           - $(params.build-args)
         description: Array of --build-arg values ("arg=value" strings) for buildah
@@ -68,18 +79,6 @@ spec:
         description: List of platforms to build the container images on. The available set of values is determined by the configuration of the multi-platform-controller.
         name: build-platforms
         type: array
-      - name: buildah-format
-        default: oci
-        type: string
-        description: The format for the resulting image's mediaType. Valid values are oci or docker.
-      - name: enable-cache-proxy
-        default: 'false'
-        description: Enable cache proxy configuration
-        type: string
-      - name: enable-package-registry-proxy
-        default: 'true'
-        description: Use the package registry proxy when prefetching dependencies
-        type: string
     results:
       - description: ""
         name: IMAGE_URL
@@ -160,14 +159,14 @@ spec:
         params:
           - name: input
             value: $(params.prefetch-input)
+          - name: enable-package-registry-proxy
+            value: $(params.enable-package-registry-proxy)
           - name: SOURCE_ARTIFACT
             value: $(tasks.run-opm-command.results.SOURCE_ARTIFACT)
           - name: ociStorage
             value: $(params.output-image).prefetch
           - name: ociArtifactExpiresAfter
             value: $(params.image-expires-after)
-          - name: enable-package-registry-proxy
-            value: $(params.enable-package-registry-proxy)
         runAfter:
           - run-opm-command
         taskRef:
@@ -175,7 +174,7 @@ spec:
             - name: name
               value: prefetch-dependencies-oci-ta
             - name: bundle
-              value: quay.io/konflux-ci/tekton-catalog/task-prefetch-dependencies-oci-ta:0.3@sha256:3dc78afbf3a441e0280067433cb28ea3d2d0088ec214c73bf063f145b4f273ef
+              value: quay.io/konflux-ci/tekton-catalog/task-prefetch-dependencies-oci-ta:0.3@sha256:7e84b01526b6a50b920c0f456c8d95d6c5c2f7b81109ea772e1dcf7aba14bfa5
             - name: kind
               value: task
           resolver: bundles
@@ -212,18 +211,16 @@ spec:
             value: $(params.build-args-file)
           - name: SOURCE_URL
             value: $(tasks.clone-repository.results.url)
+          - name: HTTP_PROXY
+            value: $(tasks.init.results.http-proxy)
+          - name: NO_PROXY
+            value: $(tasks.init.results.no-proxy)
           - name: SOURCE_ARTIFACT
             value: $(tasks.prefetch-dependencies.results.SOURCE_ARTIFACT)
           - name: CACHI2_ARTIFACT
             value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
           - name: IMAGE_APPEND_PLATFORM
             value: "true"
-          - name: BUILDAH_FORMAT
-            value: $(params.buildah-format)
-          - name: HTTP_PROXY
-            value: $(tasks.init.results.http-proxy)
-          - name: NO_PROXY
-            value: $(tasks.init.results.no-proxy)
         runAfter:
           - clone-repository
         taskRef:
@@ -231,7 +228,7 @@ spec:
             - name: name
               value: buildah-remote-oci-ta
             - name: bundle
-              value: quay.io/konflux-ci/tekton-catalog/task-buildah-remote-oci-ta:0.9@sha256:77007259cc87f32d63d2c201226aadaab98313cfd4e02b46abc243c4d2cc27bd
+              value: quay.io/konflux-ci/tekton-catalog/task-buildah-remote-oci-ta:0.10@sha256:1eaac50bb7e77feccfe3f0a521714de6a153387d3847bd94542e2a974bb05121
             - name: kind
               value: task
           resolver: bundles
@@ -244,8 +241,6 @@ spec:
           - name: IMAGES
             value:
               - $(tasks.build-images.results.IMAGE_REF[*])
-          - name: BUILDAH_FORMAT
-            value: $(params.buildah-format)
         runAfter:
           - build-images
         taskRef:
@@ -359,7 +354,7 @@ spec:
             - name: name
               value: fbc-fips-check-oci-ta
             - name: bundle
-              value: quay.io/konflux-ci/tekton-catalog/task-fbc-fips-check-oci-ta:0.1@sha256:23c6e304a68d4b103007916aa5af7aee7898c1737d6879a64dc984138cbd22b6
+              value: quay.io/konflux-ci/tekton-catalog/task-fbc-fips-check-oci-ta:0.1@sha256:e957d0399fb5579163f00967aea2c137cf25d0679592e4a480e8d850db18d4f0
             - name: kind
               value: task
           resolver: bundles
