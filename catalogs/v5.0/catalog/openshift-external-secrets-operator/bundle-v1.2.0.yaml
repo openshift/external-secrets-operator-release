@@ -1,5 +1,5 @@
 ---
-image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:8cbe4dcef17c08f845be0bd14d83e5a0047f3e09d5261f63ec50a3d7506d72ac
+image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:c25ce0971c7c1602ccec5d2c52efd8c371c56e62d1db4e68ea093e2907ef3807
 name: openshift-external-secrets-operator.v1.2.0
 package: openshift-external-secrets-operator
 properties:
@@ -368,7 +368,7 @@ properties:
       categories: Security
       console.openshift.io/disable-operand-delete: "true"
       containerImage: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:d1feb355a6084c3ab6ee7b8e6583329f7912a8d82210d20e191fd74cceeb1888
-      createdAt: 2026-06-21T16:20:44
+      createdAt: 2026-06-22T11:41:05
       features.operators.openshift.io/cnf: "false"
       features.operators.openshift.io/cni: "false"
       features.operators.openshift.io/csi: "false"
@@ -596,10 +596,10 @@ properties:
 relatedImages:
 - image: registry.stage.redhat.io/external-secrets-operator/bitwarden-sdk-server-rhel9@sha256:8b5e72144defec569bcaba046ae2b5dc27bc8d9e2b2a91d3dc5a8c30e29f1075
   name: bitwarden-sdk-server
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:8cbe4dcef17c08f845be0bd14d83e5a0047f3e09d5261f63ec50a3d7506d72ac
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:c25ce0971c7c1602ccec5d2c52efd8c371c56e62d1db4e68ea093e2907ef3807
   name: ""
 - image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:d1feb355a6084c3ab6ee7b8e6583329f7912a8d82210d20e191fd74cceeb1888
   name: ""
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-rhel9@sha256:7a491bc84db1316f4889d1e610328160a76cc1509576fc6a5847cb7c0f9443f7
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-rhel9@sha256:5c9b694462ce93a61117311496834f88954ab01178ce24a04f003748694e15f5
   name: external-secrets
 schema: olm.bundle
