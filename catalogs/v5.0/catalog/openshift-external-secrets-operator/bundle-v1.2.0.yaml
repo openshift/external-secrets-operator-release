@@ -1,5 +1,5 @@
 ---
-image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:c25ce0971c7c1602ccec5d2c52efd8c371c56e62d1db4e68ea093e2907ef3807
+image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:b7413b7dda1dfaca20e09f456bca29f5e7f699d4e6bd1d9137e818efaa8e8955
 name: openshift-external-secrets-operator.v1.2.0
 package: openshift-external-secrets-operator
 properties:
@@ -367,8 +367,8 @@ properties:
       capabilities: Basic Install
       categories: Security
       console.openshift.io/disable-operand-delete: "true"
-      containerImage: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:d1feb355a6084c3ab6ee7b8e6583329f7912a8d82210d20e191fd74cceeb1888
-      createdAt: 2026-06-22T11:41:05
+      containerImage: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:fe6ad2eef8ed0ec4d49f0376204cda359e7f9b2862a78b9aa6602c90a68dab61
+      createdAt: 2026-06-24T10:49:33
       features.operators.openshift.io/cnf: "false"
       features.operators.openshift.io/cni: "false"
       features.operators.openshift.io/csi: "false"
@@ -596,9 +596,9 @@ properties:
 relatedImages:
 - image: registry.stage.redhat.io/external-secrets-operator/bitwarden-sdk-server-rhel9@sha256:8b5e72144defec569bcaba046ae2b5dc27bc8d9e2b2a91d3dc5a8c30e29f1075
   name: bitwarden-sdk-server
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:c25ce0971c7c1602ccec5d2c52efd8c371c56e62d1db4e68ea093e2907ef3807
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-bundle@sha256:b7413b7dda1dfaca20e09f456bca29f5e7f699d4e6bd1d9137e818efaa8e8955
   name: ""
-- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:d1feb355a6084c3ab6ee7b8e6583329f7912a8d82210d20e191fd74cceeb1888
+- image: registry.stage.redhat.io/external-secrets-operator/external-secrets-operator-rhel9@sha256:fe6ad2eef8ed0ec4d49f0376204cda359e7f9b2862a78b9aa6602c90a68dab61
   name: ""
 - image: registry.stage.redhat.io/external-secrets-operator/external-secrets-rhel9@sha256:5c9b694462ce93a61117311496834f88954ab01178ce24a04f003748694e15f5
   name: external-secrets
