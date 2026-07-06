@@ -21,7 +21,8 @@
 					"pin",
 					"digest"
 				],
-				"automerge": true
+				"automerge": true,
+				"addLabels": ["/approve", "/lgtm"]
 			}
 		]
 	},
@@ -30,7 +31,8 @@
 		"packageRules": [
 			{
 				"matchFileNames": ["Containerfile.*"],
-				"automerge": true
+				"automerge": true,
+				"addLabels": ["/approve", "/lgtm"]
 			}
 		]
 	},
