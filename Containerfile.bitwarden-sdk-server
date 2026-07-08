@@ -1,9 +1,11 @@
-FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_golang_1.26 AS builder
-ARG SOURCE_DIR="/go/src/github.com/openshift/external-secrets-bitwarden-sdk-server"
+FROM registry.access.redhat.com/ubi9/go-toolset:1.26 AS builder
 
+ARG SOURCE_DIR="/opt/app-root/src/bitwarden-sdk-server"
 WORKDIR $SOURCE_DIR
+
+RUN mkdir bin
 COPY bitwarden-sdk-server .
-COPY bitwarden-sdk-server/LICENSE /licenses/
+COPY bitwarden-sdk-server/LICENSE /opt/app-root/licenses/
 
 ENV GO_BUILD_TAGS=strictfipsruntime,openssl
 ENV GOEXPERIMENT=strictfipsruntime
@@ -11,7 +13,9 @@ ENV CGO_ENABLED=1
 ENV GOFLAGS=""
 ENV OPENSHIFT_CI=1
 
-RUN mkdir state && CGO_LDFLAGS="-lm" go build -a -ldflags '-linkmode external -extldflags "-static -Wl,-unresolved-symbols=ignore-all"' -tags ${GO_BUILD_TAGS} -o bin/bitwarden-sdk-server main.go
+RUN mkdir state && CGO_LDFLAGS="-lm" go build -a \
+  -ldflags '-linkmode external -extldflags "-Wl,-unresolved-symbols=ignore-all"' \
+  -tags ${GO_BUILD_TAGS} -o bin/bitwarden-sdk-server main.go
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest@sha256:463cae32c6f6f5594b11a5c22de275016bd8545ce58a6373388e8b24f13fc15c
 
@@ -22,11 +26,11 @@ ARG RELEASE_VERSION
 ARG COMMIT_SHA
 ## github URL of the external-secrets-bitwarden-sdk-server source repository.
 ARG SOURCE_URL
-ARG SOURCE_DIR="/go/src/github.com/openshift/external-secrets-bitwarden-sdk-server"
+ARG SOURCE_DIR="/opt/app-root/src/bitwarden-sdk-server"
 
 COPY --from=builder $SOURCE_DIR/bin/bitwarden-sdk-server /bin/bitwarden-sdk-server
 COPY --from=builder --chown=65534:65534 $SOURCE_DIR/state /state
-COPY --from=builder /licenses /licenses
+COPY --from=builder /opt/app-root/licenses /licenses
 
 EXPOSE 9998
 ENV CGO_ENABLED=1
