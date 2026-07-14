@@ -36,7 +36,7 @@ spec:
     value: .
   - name: build-args
     value:
-      - RELEASE_VERSION=v0.5.1
+      - RELEASE_VERSION=v0.5.3
       - COMMIT_SHA={{revision}}
       - SOURCE_URL={{source_url}}
   - name: prefetch-input
