@@ -1,6 +1,6 @@
 module github.com/external-secrets/bitwarden-sdk-server
 
-go 1.22
+go 1.22.9
 
 require (
 	github.com/bitwarden/sdk-go v1.0.2
