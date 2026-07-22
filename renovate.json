@@ -22,7 +22,7 @@
 					"digest"
 				],
 				"automerge": true,
-				"addLabels": ["/approve", "/lgtm"]
+				"addLabels": ["approved", "lgtm"]
 			}
 		]
 	},
@@ -32,7 +32,7 @@
 			{
 				"matchFileNames": ["Containerfile.*"],
 				"automerge": true,
-				"addLabels": ["/approve", "/lgtm"]
+				"addLabels": ["approved", "lgtm"]
 			}
 		]
 	},
