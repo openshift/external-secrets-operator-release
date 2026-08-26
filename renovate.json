@@ -11,16 +11,83 @@
 	"rebaseLabel": "needs-rebase",
 	"rebaseWhen": "behind-base-branch",
 	"recreateWhen": "always",
+	"minimumReleaseAge": "7 days",
+	"customManagers": [
+		{
+			"customType": "regex",
+			"description": "Hack script tool images in hack/tool-images.sh (skopeo, hadolint, shellcheck, renovate)",
+			"managerFilePatterns": ["/^hack\\/tool-images\\.sh$/"],
+			"matchStrings": [
+				"(?<depName>registry\\.access\\.redhat\\.com\\/ubi9\\/skopeo|ghcr\\.io\\/hadolint\\/hadolint|docker\\.io\\/koalaman\\/shellcheck|ghcr\\.io\\/renovatebot\\/renovate):(?<currentValue>[^@\\s\"]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?"
+			],
+			"datasourceTemplate": "docker",
+			"versioningTemplate": "docker",
+			"autoReplaceStringTemplate": "{{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}"
+		}
+	],
+	"packageRules": [
+		{
+			"description": "Use Red Hat versioning for ubi9/skopeo tags (e.g. 9.8-1785444819)",
+			"matchPackageNames": ["registry.access.redhat.com/ubi9/skopeo"],
+			"versioning": "redhat"
+		},
+		{
+			"description": "Hack script tool images: only major/minor (no patch/digest-only)",
+			"matchManagers": ["custom.regex"],
+			"matchPackageNames": [
+				"registry.access.redhat.com/ubi9/skopeo",
+				"ghcr.io/hadolint/hadolint",
+				"docker.io/koalaman/shellcheck",
+				"ghcr.io/renovatebot/renovate"
+			],
+			"matchUpdateTypes": ["major", "minor"],
+			"minimumReleaseAge": "7 days",
+			"enabled": true,
+			"automerge": false
+		},
+		{
+			"description": "Disable patch/digest/pin updates for hack script tool images",
+			"matchManagers": ["custom.regex"],
+			"matchPackageNames": [
+				"registry.access.redhat.com/ubi9/skopeo",
+				"ghcr.io/hadolint/hadolint",
+				"docker.io/koalaman/shellcheck",
+				"ghcr.io/renovatebot/renovate"
+			],
+			"matchUpdateTypes": ["patch", "digest", "pin", "pinDigest"],
+			"enabled": false
+		}
+	],
 	"tekton": {
 		"enabled": true,
 		"packageRules": [
 			{
-				"matchUpdateTypes": [
-					"minor",
-					"patch",
-					"pin",
-					"digest"
+				"description": "Disable all Tekton updates by default",
+				"matchDatasources": ["docker"],
+				"enabled": false
+			},
+			{
+				"description": "Konflux Tekton catalog image updates only (tag + digest); majors/minors require human review",
+				"matchDatasources": ["docker"],
+				"matchPackageNames": [
+					"/^quay\\.io\\/konflux-ci\\/tekton-catalog\\//",
+					"/^quay\\.io\\/redhat-appstudio-tekton-catalog\\//"
 				],
+				"matchUpdateTypes": ["major", "minor", "patch", "digest"],
+				"minimumReleaseAge": "7 days",
+				"enabled": true,
+				"automerge": false
+			},
+			{
+				"description": "Automerge only low-risk Tekton digest and patch image updates",
+				"matchDatasources": ["docker"],
+				"matchPackageNames": [
+					"/^quay\\.io\\/konflux-ci\\/tekton-catalog\\//",
+					"/^quay\\.io\\/redhat-appstudio-tekton-catalog\\//"
+				],
+				"matchUpdateTypes": ["digest", "patch"],
+				"minimumReleaseAge": "7 days",
+				"enabled": true,
 				"automerge": true,
 				"addLabels": ["approved", "lgtm"]
 			}
@@ -30,7 +97,16 @@
 		"enabled": true,
 		"packageRules": [
 			{
-				"matchFileNames": ["Containerfile.*"],
+				"description": "Disable all Containerfile image updates by default",
+				"matchDatasources": ["docker"],
+				"enabled": false
+			},
+			{
+				"description": "Only digest updates for images already pinned with @sha256 (nothing else)",
+				"matchCurrentValue": "/@sha256:[a-f0-9]+$/i",
+				"matchUpdateTypes": ["digest"],
+				"minimumReleaseAge": "3 days",
+				"enabled": true,
 				"automerge": true,
 				"addLabels": ["approved", "lgtm"]
 			}

@@ -27,6 +27,9 @@ declare CATALOG_DIR
 declare BUNDLE_FILE_NAME
 declare REPLICATE_BUNDLE_FILE_IN_CATALOGS
 
+# shellcheck disable=SC1091 # sourced file path is runtime-resolved
+source "$(dirname "${BASH_SOURCE[0]}")/tool-images.sh"
+
 EXTERNAL_SECRETS_OPERATOR_CATALOG_NAME="openshift-external-secrets-operator"
 GREEN_COLOR_TEXT='\033[0;32m'
 RED_COLOR_TEXT='\033[0;31m'
@@ -58,8 +61,10 @@ verify_bundle_image()
 	fi
 
 	log_info "inspecting ${OPERATOR_BUNDLE_IMAGE} bundle image"
+	require_image_digest "${SKOPEO_IMAGE}" "SKOPEO_IMAGE"
 	media_type="$(podman run -e REGISTRY_AUTH_FILE="/tmp/auth.json" --rm -v "${auth_file}:/tmp/auth.json:Z" \
-		quay.io/skopeo/stable:latest inspect --raw docker://"${OPERATOR_BUNDLE_IMAGE}" | jq -r .mediaType)"
+		"${SKOPEO_IMAGE}" \
+		skopeo inspect --raw docker://"${OPERATOR_BUNDLE_IMAGE}" | jq -r .mediaType)"
 
 	case $media_type in
 		application/vnd.oci.image.manifest.v1+json|application/vnd.docker.distribution.manifest.v2+json)
