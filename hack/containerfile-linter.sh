@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC1091 # sourced file path is runtime-resolved
+source "$(dirname "${BASH_SOURCE[0]}")/tool-images.sh"
+
 declare -a CONTAINERFILES
 declare -a EXTERNAL_SECRETS_OPERATOR_CONTAINERFILES
 
-
 linter()
 {
+	require_image_digest "${HADOLINT_IMAGE}" "HADOLINT_IMAGE"
 	containerfiles=("$@")
 	for containerfile in "${containerfiles[@]}"; do
 		if [[ ! -f "${containerfile}" ]]; then
@@ -13,7 +16,7 @@ linter()
 			exit 1
 		fi
 		echo "[$(date)] -- INFO  -- running linter on ${containerfile}"
-		if ! podman run --rm -i -e "HADOLINT_FAILURE_THRESHOLD=error" ghcr.io/hadolint/hadolint < "${containerfile}" ; then
+		if ! podman run --rm -i -e "HADOLINT_FAILURE_THRESHOLD=error" "${HADOLINT_IMAGE}" < "${containerfile}" ; then
 			exit 1
 		fi
 	done
