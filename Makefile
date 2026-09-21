@@ -10,13 +10,7 @@ IMAGE_VERSION ?= latest
 ## path to store the tools binary.
 TOOL_BIN_DIR = $(strip $(shell git rev-parse --show-toplevel --show-superproject-working-tree | tail -1))/bin/tools
 
-## Operator Package Manager tool to download.
-OPM_TOOL_VERSION ?= v1.48.0
-
-## URL to download Operator Package Manager tool.
-OPM_DOWNLOAD_URL = https://github.com/operator-framework/operator-registry/releases/download/$(OPM_TOOL_VERSION)/$(shell go env GOOS)-$(shell go env GOARCH)-opm
-
-## Operator Package Manager tool path.
+## Operator Package Manager tool path (version and sha256 pins live in hack/tool-images.sh).
 OPM_TOOL_PATH ?= $(TOOL_BIN_DIR)/opm
 
 ## Operator bundle image to use for generating catalog.
@@ -90,19 +84,10 @@ verify-containerfiles:
 .PHONY: verify
 verify: verify-shell-scripts verify-containerfiles validate-renovate-config
 
-## get opm(operator package manager) tool.
+## get opm(operator package manager) tool (pinned version + sha256 in hack/tool-images.sh).
 .PHONY: get-opm
 get-opm:
-	$(call get-bin,$(OPM_TOOL_PATH),$(TOOL_BIN_DIR),$(OPM_DOWNLOAD_URL))
-
-define get-bin
-@[ -f "$(1)" ] || { \
-	[ ! -d "$(2)" ] && mkdir -p "$(2)" || true ;\
-	echo "Downloading $(3)" ;\
-	curl -fL $(3) -o "$(1)" ;\
-	chmod +x "$(1)" ;\
-}
-endef
+	./hack/get-opm.sh $(TOOL_BIN_DIR)
 
 ## clean up temp dirs, images.
 .PHONY: clean
