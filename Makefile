@@ -32,7 +32,7 @@ $(error external_secrets_operator_branch is empty.)
 endif
 
 ## release version to be used for image tags and build args to add labels to images.
-RELEASE_VERSION = v1.2.1
+RELEASE_VERSION = v1.3.0
 
 ## container build tool to use for creating images.
 CONTAINER_ENGINE ?= podman
