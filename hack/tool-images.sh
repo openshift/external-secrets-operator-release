@@ -5,7 +5,7 @@
 
 export SHELLCHECK_IMAGE="docker.io/koalaman/shellcheck:v0.11.0@sha256:61862eba1fcf09a484ebcc6feea46f1782532571a34ed51fedf90dd25f925a8d"
 export HADOLINT_IMAGE="ghcr.io/hadolint/hadolint:v2.15.0@sha256:78cefa24d67e95cac4cdc388652068d0be545bd2926fcbec6f95c1a751d5da32"
-export RENOVATE_IMAGE="ghcr.io/renovatebot/renovate:44.115.13@sha256:0c04185c9e7ea5284da22ea0b2a2c88dcd3687badd8feb6c71691659b380df9b"
+export RENOVATE_IMAGE="ghcr.io/renovatebot/renovate:44.165.1@sha256:455f4169a364a4c8bdc38a08694e3509649f3d7cb9aaea35c86946b38015ac47"
 
 # Assert an image reference is digest-pinned (@sha256:...).
 # Usage: require_image_digest <image_ref> [name]
