@@ -6,7 +6,7 @@
 
 export SHELLCHECK_IMAGE="docker.io/koalaman/shellcheck:v0.11.0@sha256:61862eba1fcf09a484ebcc6feea46f1782532571a34ed51fedf90dd25f925a8d"
 export HADOLINT_IMAGE="ghcr.io/hadolint/hadolint:v2.15.0@sha256:78cefa24d67e95cac4cdc388652068d0be545bd2926fcbec6f95c1a751d5da32"
-export RENOVATE_IMAGE="ghcr.io/renovatebot/renovate:44.236.5@sha256:935fc7f1de18fdde6cc40c9dd57cc06a4300251b4997e3841ffd9b1e84972767"
+export RENOVATE_IMAGE="ghcr.io/renovatebot/renovate:44.239.1@sha256:7dba1a3b916a2cf302ba0df458ddcc8fcbac3c92d0fe9882ac13ba0363de656b"
 export SKOPEO_IMAGE="registry.access.redhat.com/ubi9/skopeo:9.9-1794502762@sha256:24e66022e612648bb214488acdbd4abe7c8d203f8d7d45a5d6915052818cb66d"
 
 # Operator Package Manager (opm) — checksums from:
