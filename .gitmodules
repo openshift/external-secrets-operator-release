@@ -1,7 +1,7 @@
 [submodule "external-secrets"]
 	path = external-secrets
 	url = https://github.com/openshift/external-secrets.git
-	tag = v0.19.2
+	tag = release-1.0.2
 [submodule "bitwarden-sdk-server"]
 	path = bitwarden-sdk-server
 	url = https://github.com/openshift/external-secrets-bitwarden-sdk-server.git
